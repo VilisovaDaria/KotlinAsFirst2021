@@ -4,6 +4,8 @@ package lesson2.task1
 
 import lesson1.task1.discriminant
 import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 // Урок 2: ветвления (здесь), логический тип (см. 2.2).
@@ -68,7 +70,9 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+
+}
 
 /**
  * Простая (2 балла)
@@ -122,7 +126,25 @@ fun rookOrBishopThreatens(
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+
+    val minSide1 = min(a, b)
+    val minSide2 = min(c, max(a, b))
+    val maxSide = max(c, max(a, b))
+    var result = -1
+
+    if (maxSide <= minSide1 + minSide2) {
+
+        if (maxSide.pow(2) == minSide1.pow(2) + minSide2.pow(2)) {
+            result = 1
+        } else if (maxSide.pow(2) < minSide1.pow(2) + minSide2.pow(2)) {
+            result = 0
+        } else if (maxSide.pow(2) > minSide1.pow(2) + minSide2.pow(2)) {
+            result = 2
+        }
+    }
+    return result
+}
 
 /**
  * Средняя (3 балла)
