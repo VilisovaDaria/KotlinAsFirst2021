@@ -89,12 +89,18 @@ fun timeForHalfWay(
     t2: Double, v2: Double,
     t3: Double, v3: Double
 ): Double {
-    if (t1 * v1 + t2 * v2 == v3 * t3) return t1 + t2
-    else if (t1 * v1 + t2 * v2 < v3 * t3) return ((v3 * t3 - (t1 * v1 + t2 * v2)) / 2) / v3 + t1 + t2
-    else if (t1 * v1 > t2 * v2 + v3 * t2) return (t1 * v1 - ((t1 * v1 - (t2 * v2 + t3 * v3)) / 2)) / v1
-    else if (t1 * v1 + t2 * v2 > v3 * t3) return t1 + t2 - (((t1 * v1 + t2 * v2 - v3 * t3) / 2) / v2)
+    val Polovina = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    if (Polovina / v1 == t1) return t1
+    if (Polovina / v1 > t1) {
+        if ((Polovina - v1 * t1) / v2 == t2) return t1 + t2
+        if ((Polovina - v1 * t1) / v3 == t3) return t1 + t3
+        if (Polovina - v1 * t1 > v2 * t2) return (Polovina - v1 * t1 - v2 * t2) / v3 + t1 + t2
+        if (Polovina - v1 * t1 < v2 * t2) return (Polovina - v1 * t1) / v2 + t1
+    }
+    else if (Polovina / v1 < t1) return Polovina / v1
     return 0.0
 }
+
 
 /**
  * Простая (2 балла)
@@ -165,12 +171,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int =
     when {
-        (a < b && b < c && c < d) || (c < d && d < a && a < b) -> -1
+        a < b && b < c && c < d || c < d && d < a && a < b -> -1
         a < c && c < b && b < d -> b - c
         a < c && c < d && d < b -> d - c
         c < a && a < b && b < d -> b - a
         c < a && a < d && d < b -> d - a
-        (a < c && c == b && b < d) || (a == c && c == d && a < b) -> 0
-        (a == b && d == c) || (a == b && b == c && c < d) || (a < b && b == c && c == d) -> 0
+        a < c && c == b && b < d || a == c && c == d && a < b -> 0
+        a == b && d == c || a == b && b == c && c < d || a < b && b == c && c == d -> 0
         else -> -1
     }
