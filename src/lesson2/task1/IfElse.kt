@@ -96,8 +96,7 @@ fun timeForHalfWay(
         if ((Polovina - v1 * t1) / v3 == t3) return t1 + t3
         if (Polovina - v1 * t1 > v2 * t2) return (Polovina - v1 * t1 - v2 * t2) / v3 + t1 + t2
         if (Polovina - v1 * t1 < v2 * t2) return (Polovina - v1 * t1) / v2 + t1
-    }
-    else if (Polovina / v1 < t1) return Polovina / v1
+    } else if (Polovina / v1 < t1) return Polovina / v1
     return 0.0
 }
 
@@ -139,7 +138,15 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int = TODO()
+): Int {
+    if (kingX != rookX && kingY != rookY && (bishopX + bishopY) != (kingX + kingY) && (kingX - kingY) != (bishopX - bishopY)) return 0
+    else if ((bishopX + bishopY) != (kingX + kingY) && (kingX - kingY) != (bishopX - bishopY)) {
+        if (kingX == rookX || kingY == rookY) return 1
+    } else if (kingX != rookX && kingY != rookY) {
+        if (bishopX + bishopY == kingX + kingY || kingX - kingY == bishopX - bishopY) return 2
+    } else if ((kingX == rookX || kingY == rookY) && (bishopX + bishopY == kingX + kingY || kingX - kingY == bishopX - bishopY)) return 3
+    return 0
+}
 
 /**
  * Простая (2 балла)
@@ -177,14 +184,33 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int =
-    when {
-        a < b && b < c && c < d || c < d && d < a && a < b -> -1
-        a < c && c < b && b < d -> b - c
-        a < c && c < d && d < b -> d - c
-        c < a && a < b && b < d -> b - a
-        c < a && a < d && d < b -> d - a
-        a < c && c == b && b < d || a == c && c == d && a < b -> 0
-        a == b && d == c || a == b && b == c && c < d || a < b && b == c && c == d -> 0
-        else -> -1
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    var ab = b - a
+    var cd = d - c
+    if (c in 0..ab) {
+        if (ab != 0 && c == a && a != b) {
+            if (d == c) return 0
+            else if (d > c && d < b) return d - c
+            else if (d > b) return b - a
+        } else if (ab != 0 && c == b && d >= b) return 0
+        else if (c > a && c < b) {
+            if (d == c) return 0
+            else if (d > c && d < b) return d - c
+            else if (d > b) return b - c
+        } else if (ab != 0 && c < a) {
+            if (d > c && d < a) return -1
+            else if (d > a && d < b) return d - a
+            else if (d > b) return b - a
+            else if (c == d) return -1
+        } else if (ab != 0 && c > b) {
+            if (d >= c) return -1
+        }
+        if (ab == 0 && c > a && c <= d) return -1
+        else if (ab == 0 && c == a && d >= c) return 0
+        else if (c < a && d < a && ab == 0) return -1
+        else if (c < a && d >= a && ab == 0) return 0
     }
+    return -1
+}
+
+
