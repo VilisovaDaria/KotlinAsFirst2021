@@ -186,29 +186,41 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     var ab = b - a
-    var cd = d - c
-    if (c in 0..ab) {
-        if (ab != 0 && c == a && a != b) {
+    while (ab > 0) {
+        if (c == a) {
             if (d == c) return 0
-            else if (d > c && d < b) return d - c
-            else if (d > b) return b - a
-        } else if (ab != 0 && c == b && d >= b) return 0
-        else if (c > a && c < b) {
-            if (d == c) return 0
-            else if (d > c && d < b) return d - c
+            else if (d > a && d < b) return d - c
+            else if (d == b) return d - c
             else if (d > b) return b - c
-        } else if (ab != 0 && c < a) {
-            if (d > c && d < a) return -1
+        } else if (c > a && c < b) {
+            if (d == c) return 0
+            else if (d > c && d < b) return d - c
+            else if (d == b) return b - c
+            else if (d > b) return b - c
+        } else if (c == b) {
+            if (d >= b) return 0
+        } else if (c < a) {
+            if (d == c) return -1
+            else if (d == a) return 0
             else if (d > a && d < b) return d - a
-            else if (d > b) return b - a
-            else if (c == d) return -1
-        } else if (ab != 0 && c > b) {
+            else if (d >= b) return b - a
+        } else if (c > b) {
             if (d >= c) return -1
         }
-        if (ab == 0 && c > a && c <= d) return -1
-        else if (ab == 0 && c == a && d >= c) return 0
-        else if (c < a && d < a && ab == 0) return -1
-        else if (c < a && d >= a && ab == 0) return 0
+        return -1
+    }
+    while (ab == 0) {
+        if (c < a) {
+            if (d < a) return -1
+            else if (d == a) return 0
+            else if (d > a) return 0
+        } else if (c == a) {
+            if (d == a) return 0
+            if (d > a) return 0
+        } else if (c > a) {
+            if (d >= c) return -1
+        }
+        return -1
     }
     return -1
 }

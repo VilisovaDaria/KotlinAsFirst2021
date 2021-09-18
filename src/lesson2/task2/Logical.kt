@@ -3,6 +3,10 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.sqrt
 
 /**
  * Пример
@@ -42,7 +46,13 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  * Дан номер месяца (от 1 до 12 включительно) и год (положительный).
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
-fun daysInMonth(month: Int, year: Int): Int = TODO()
+fun daysInMonth(month: Int, year: Int): Int {
+    if (month == 4 || month == 6 || month == 9 || month == 11) return 30
+    else if (month == 2 && (year % 4 == 0 && year % 100 != 0) || year % 400 == 0) return 29
+    else if (month == 2 && year % 400 != 0 || year % 100 == 0) return 28
+    else return 31
+    return 0
+}
 
 /**
  * Простая (2 балла)
@@ -54,7 +64,12 @@ fun daysInMonth(month: Int, year: Int): Int = TODO()
 fun circleInside(
     x1: Double, y1: Double, r1: Double,
     x2: Double, y2: Double, r2: Double
-): Boolean = TODO()
+): Boolean {
+    var s = sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2))
+    if (s + r1 <= r2) return true
+    else if (s + r1 > r2) return false
+    return false
+}
 
 /**
  * Средняя (3 балла)
