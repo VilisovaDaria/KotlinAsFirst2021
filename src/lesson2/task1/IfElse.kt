@@ -89,14 +89,14 @@ fun timeForHalfWay(
     t2: Double, v2: Double,
     t3: Double, v3: Double
 ): Double {
-    val Polovina = (t1 * v1 + t2 * v2 + t3 * v3) / 2
-    if (Polovina / v1 == t1) return t1
-    if (Polovina / v1 > t1) {
-        if ((Polovina - v1 * t1) / v2 == t2) return t1 + t2
-        if ((Polovina - v1 * t1) / v3 == t3) return t1 + t3
-        if (Polovina - v1 * t1 > v2 * t2) return (Polovina - v1 * t1 - v2 * t2) / v3 + t1 + t2
-        if (Polovina - v1 * t1 < v2 * t2) return (Polovina - v1 * t1) / v2 + t1
-    } else if (Polovina / v1 < t1) return Polovina / v1
+    val half = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    if (half / v1 == t1) return t1
+    if (half / v1 > t1) {
+        if ((half - v1 * t1) / v2 == t2) return t1 + t2
+        if ((half - v1 * t1) / v3 == t3) return t1 + t3
+        if (half - v1 * t1 > v2 * t2) return (half - v1 * t1 - v2 * t2) / v3 + t1 + t2
+        if (half - v1 * t1 < v2 * t2) return (half - v1 * t1) / v2 + t1
+    } else if (half / v1 < t1) return half / v1
     return 0.0
 }
 
