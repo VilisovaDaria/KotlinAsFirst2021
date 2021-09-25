@@ -77,7 +77,7 @@ fun digitNumber(n: Int): Int {
     var countOfNumber = 0
     var l = n
     if (l == 0) return 1
-    while (l > 0) {
+    while (l > 0 || l < 0) {
         l /= 10
         countOfNumber += 1
     }
@@ -98,12 +98,11 @@ fun fib(n: Int): Int = TODO()
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var divisor = 2
+    var divisor = 1
     while (divisor < n) {
         divisor += 1
         if (n % divisor == 0) return divisor
     }
-    if (divisor == n) return n
     return 0
 }
 
