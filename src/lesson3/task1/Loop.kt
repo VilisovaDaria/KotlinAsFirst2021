@@ -101,7 +101,8 @@ fun fib(n: Int): Int {
         b = sumAB
         i += 1
     }
-return b}
+    return b
+}
 
 /**
  * Простая (2 балла)
@@ -148,7 +149,16 @@ fun maxDivisor(n: Int): Int {
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int {
+    var count = 0
+    var l = x
+    while (l > 1) {
+        if (l % 2 == 0) l /= 2
+        else l = 3 * l + 1
+        count++
+    }
+    return count
+}
 
 /**
  * Средняя (3 балла)
