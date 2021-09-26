@@ -99,6 +99,7 @@ fun fib(n: Int): Int {
         sumAB = a + b
         a = b
         b = sumAB
+        i += 1
     }
 return b}
 
