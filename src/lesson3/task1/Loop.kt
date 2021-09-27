@@ -203,7 +203,18 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var nNew = 0
+    var percent = 0
+    var n1 = n
+    while (n1 > 0) {
+        percent = n1 % 10
+        nNew = nNew * 10 + percent
+        n1 /= 10
+    }
+    return nNew
+    return 0
+}
 
 /**
  * Средняя (3 балла)
