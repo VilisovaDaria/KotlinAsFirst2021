@@ -184,6 +184,7 @@ fun lcm(m: Int, n: Int): Int {
 fun isCoPrime(m: Int, n: Int): Boolean {
     var minOf = min(m, n)
     var maxOf = max(m, n)
+    if (maxOf == 1 && minOf == 1) return true
     if (maxOf % minOf == 0) return false
     if (isPrime(minOf) && maxOf % minOf != 0) {
         return true
