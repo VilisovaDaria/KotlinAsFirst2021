@@ -4,6 +4,7 @@ package lesson3.task1
 
 import kotlin.math.sqrt
 import kotlin.math.*
+import kotlin.math.pow
 
 // Урок 3: циклы
 // Максимальное количество баллов = 9
@@ -226,7 +227,27 @@ fun revert(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    var n1 = n
+    var percent = 0
+    var number1 = 0
+    var half = n1 / 10.toDouble().pow(digitNumber(n1)/2+1).toInt() % 10.toDouble().pow(digitNumber(n1)/2).toInt()
+    if (n1<10) return true
+    while (n1>=10) {
+        for (i in 1..n){
+            if (digitNumber(n1)%2==0) {
+                number1 = n1 / 10.toDouble().pow(digitNumber(n1-1)).toInt()
+                percent = n % 10.toDouble().pow(i).toInt()
+                if (number1 == percent) return true
+                else return false}
+            /*if (digitNumber(n1)%2!=0) {
+                number1 = n1 / 10.toDouble().pow(digitNumber(n1-1)).toInt()
+                percent = n % 10.toDouble().pow(i).toInt()
+                if (number1 == percent && half!=number1) return true
+                else return false*/
+            }
+    }
+return false}
 
 /**
  * Средняя (3 балла)
