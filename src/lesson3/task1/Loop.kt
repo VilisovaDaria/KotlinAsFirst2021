@@ -231,23 +231,25 @@ fun isPalindrome(n: Int): Boolean {
     var n1 = n
     var percent = 0
     var number1 = 0
-    var half = n1 / 10.toDouble().pow(digitNumber(n1)/2+1).toInt() % 10.toDouble().pow(digitNumber(n1)/2).toInt()
-    if (n1<10) return true
-    while (n1>=10) {
-        for (i in 1..n){
-            if (digitNumber(n1)%2==0) {
-                number1 = n1 / 10.toDouble().pow(digitNumber(n1-1)).toInt()
-                percent = n % 10.toDouble().pow(i).toInt()
-                if (number1 == percent) return true
-                else return false}
-            /*if (digitNumber(n1)%2!=0) {
-                number1 = n1 / 10.toDouble().pow(digitNumber(n1-1)).toInt()
-                percent = n % 10.toDouble().pow(i).toInt()
-                if (number1 == percent && half!=number1) return true
-                else return false*/
-            }
+    var half = n1 % 10.toDouble().pow(digitNumber(n1) / 2 + 1).toInt() / 10.toDouble().pow(digitNumber(n1) / 2).toInt()
+    if (n1 < 10) return true
+    while (n1 >= 10) {
+        if (digitNumber(n1) % 2 == 0) {
+            number1 = n1 / 10.toDouble().pow(digitNumber(n1 - 1)).toInt()
+            percent = n % 10
+            n1 = n1 / 10 % 10.toDouble().pow(digitNumber(n1 - 2)).toInt()
+            if (number1 == percent) return true
+            else return false
+        } else if (digitNumber(n1) % 2 != 0) {
+            number1 = n1 / 10.toDouble().pow(digitNumber(n1 - 1)).toInt()
+            percent = n % 10
+            n1 = n1 / 10 % 10.toDouble().pow(digitNumber(n1 - 2)).toInt()
+            if (number1 == percent && number1 != half) return true
+            else return false
+        }
     }
-return false}
+    return false
+}
 
 /**
  * Средняя (3 балла)
@@ -301,4 +303,20 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var ostat = n
+    var a = 0
+    var i = 1
+    while (digitNumber(fib(i)) < ostat) {
+        ostat -= digitNumber(fib(i))
+        i += 1
+    }
+    if (ostat < digitNumber(fib(i))) {
+        a = fib(i) / 10.toDouble().pow(digitNumber(fib(i)) - ostat).toInt() % 10
+    } else if (ostat == digitNumber(fib(i))) {
+        a = fib(i) % 10
+    }
+    return a
+}
+
+
