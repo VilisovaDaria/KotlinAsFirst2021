@@ -69,8 +69,10 @@ fun circleInside(
     x2: Double, y2: Double, r2: Double
 ): Boolean {
     var s = sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2))
-    if (s + r1 <= r2) return true
-    else if (s + r1 > r2) return false
+    when {
+        s + r1 <= r2 -> return true
+        s + r1 > r2 -> return false
+    }
     return false
 }
 
