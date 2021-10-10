@@ -90,14 +90,15 @@ fun timeForHalfWay(
     t3: Double, v3: Double
 ): Double {
     val half = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    val newWay = half - v1 * t1
     if (half / v1 == t1) return t1
     else if (half / v1 < t1) return half / v1
     else {
         when {
-            ((half - v1 * t1) / v2 == t2) -> return t1 + t2
-            ((half - v1 * t1) / v3 == t3) -> return t1 + t3
-            (half - v1 * t1 > v2 * t2) -> return (half - v1 * t1 - v2 * t2) / v3 + t1 + t2
-            (half - v1 * t1 < v2 * t2) -> return (half - v1 * t1) / v2 + t1
+            newWay / v2 == t2 -> return t1 + t2
+            newWay / v3 == t3 -> return t1 + t3
+            newWay > v2 * t2 -> return (newWay - v2 * t2) / v3 + t1 + t2
+            newWay < v2 * t2 -> return newWay / v2 + t1
         }
     }
     return 0.0
