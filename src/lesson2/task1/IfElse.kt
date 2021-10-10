@@ -91,11 +91,12 @@ fun timeForHalfWay(
     if (half / v1 == t1) return t1
     else if (half / v1 < t1) return half / v1
     else {
-        when {
-            newWay / v2 == t2 -> return t1 + t2
-            newWay / v3 == t3 -> return t1 + t3
-            newWay > v2 * t2 -> return (newWay - v2 * t2) / v3 + t1 + t2
-            newWay < v2 * t2 -> return newWay / v2 + t1
+        return when {
+            newWay / v2 == t2 -> t1 + t2
+            newWay / v3 == t3 -> t1 + t3
+            newWay > v2 * t2 -> (newWay - v2 * t2) / v3 + t1 + t2
+            newWay < v2 * t2 -> newWay / v2 + t1
+            else -> 0.0
         }
     }
     return 0.0
@@ -118,12 +119,12 @@ fun whichRookThreatens(
 ): Int {
     val notDangerFromRook1 = kingX != rookX1 && kingY != rookY1
     val notDangerFromRook2 = kingX != rookX2 && kingY != rookY2
-    when {
-        notDangerFromRook2 && notDangerFromRook1 -> return 0
-        notDangerFromRook2 && (kingX == rookX1 || kingY == rookY1) -> return 1
-        notDangerFromRook1 && (kingX == rookX2 || kingY == rookY2) -> return 2
+    return when {
+        notDangerFromRook2 && notDangerFromRook1 -> 0
+        notDangerFromRook2 && (kingX == rookX1 || kingY == rookY1) -> 1
+        notDangerFromRook1 && (kingX == rookX2 || kingY == rookY2) -> 2
+        else -> 3
     }
-    return 3
 }
 
 /**
@@ -143,12 +144,12 @@ fun rookOrBishopThreatens(
 ): Int {
     val notDangerFromRook = kingX != rookX && kingY != rookY
     val notDangerFromBishop = abs(bishopX - bishopY) != abs(kingX - kingY)
-    when {
-        notDangerFromBishop && (kingX == rookX || kingY == rookY) -> return 1
-        notDangerFromRook && (abs(bishopX + bishopY) == abs(kingX + kingY)) -> return 2
-        notDangerFromBishop && notDangerFromRook -> return 0
+    return when {
+        notDangerFromBishop && (kingX == rookX || kingY == rookY) -> 1
+        notDangerFromRook && (abs(bishopX + bishopY) == abs(kingX + kingY)) -> 2
+        notDangerFromBishop && notDangerFromRook -> 0
+        else -> 3
     }
-    return 3
 }
 
 /**
