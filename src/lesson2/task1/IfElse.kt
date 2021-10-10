@@ -3,10 +3,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.pow
-import kotlin.math.sqrt
+import kotlin.math.*
 
 // Урок 2: ветвления (здесь), логический тип (см. 2.2).
 // Максимальное количество баллов = 6
@@ -119,12 +116,12 @@ fun whichRookThreatens(
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
 ): Int {
-    val dangerFromRook1 = kingX != rookX1 && kingY != rookY1
-    val dangerFromRook2 = kingX != rookX2 && kingY != rookY2
+    val notDangerFromRook1 = kingX != rookX1 && kingY != rookY1
+    val notDangerFromRook2 = kingX != rookX2 && kingY != rookY2
     when {
-        dangerFromRook2 && dangerFromRook1 -> return 0
-        dangerFromRook2 && (kingX == rookX1 || kingY == rookY1) -> return 1
-        dangerFromRook1 && (kingX == rookX2 || kingY == rookY2) -> return 2
+        notDangerFromRook2 && notDangerFromRook1 -> return 0
+        notDangerFromRook2 && (kingX == rookX1 || kingY == rookY1) -> return 1
+        notDangerFromRook1 && (kingX == rookX2 || kingY == rookY2) -> return 2
     }
     return 3
 }
@@ -144,13 +141,14 @@ fun rookOrBishopThreatens(
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
 ): Int {
-    if (kingX != rookX && kingY != rookY && (bishopX + bishopY) != (kingX + kingY) && (kingX - kingY) != (bishopX - bishopY)) return 0
-    else if ((bishopX + bishopY) != (kingX + kingY) && (kingX - kingY) != (bishopX - bishopY)) {
-        if (kingX == rookX || kingY == rookY) return 1
-    } else if (kingX != rookX && kingY != rookY) {
-        if (bishopX + bishopY == kingX + kingY || kingX - kingY == bishopX - bishopY) return 2
-    } else if ((kingX == rookX || kingY == rookY) && (bishopX + bishopY == kingX + kingY || kingX - kingY == bishopX - bishopY)) return 3
-    return 0
+    val notDangerFromRook = kingX != rookX && kingY != rookY
+    val notDangerFromBishop = abs(bishopX - bishopY) != abs(kingX - kingY)
+    when {
+        notDangerFromBishop && (kingX == rookX || kingY == rookY) -> return 1
+        notDangerFromRook && (abs(bishopX + bishopY) == abs(kingX + kingY)) -> return 2
+        notDangerFromBishop && notDangerFromRook -> return 0
+    }
+    return 3
 }
 
 /**
