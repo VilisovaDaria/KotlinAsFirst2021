@@ -119,7 +119,6 @@ fun whichRookThreatens(
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
 ): Int {
-    var stop = 0
     val dangerFromRook1 = kingX != rookX1 && kingY != rookY1
     val dangerFromRook2 = kingX != rookX2 && kingY != rookY2
     when {
