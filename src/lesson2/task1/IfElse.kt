@@ -72,7 +72,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     if (age % 10 == 1 && age != 11 && age != 111) return "$age год"
-    return if ((age % 10 == 2 || age % 10 == 3 || age % 10 == 4) && age != 12 && age != 13 && age != 14 && age != 112 && age != 113 && age != 114) "$age года"
+    return if ((age % 10 == 2 || age % 10 == 3 || age % 10 == 4) && age % 100 != 12 && age % 100 != 13 && age % 100 != 14) "$age года"
     else "$age лет"
 }
 
@@ -161,8 +161,8 @@ fun rookOrBishopThreatens(
 fun triangleKind(a: Double, b: Double, c: Double): Int {
 
     val minSide1 = min(a, b)
-    val minSide2 = min(c, max(a, b))
-    val maxSide = max(c, max(a, b))
+    val minSide2 = min(c, maxOf(a, b))
+    val maxSide = maxOf(c, maxOf(a, b))
     var result = -1
 
     if (maxSide <= minSide1 + minSide2) {
@@ -187,7 +187,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    var ab = b - a
+    val ab = b - a
     while (ab > 0) {
         if (c == a) {
             if (d == c) return 0
