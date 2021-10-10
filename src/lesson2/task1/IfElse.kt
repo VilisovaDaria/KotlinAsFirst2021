@@ -189,41 +189,24 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     val ab = b - a
-    while (ab > 0) {
-        if (c == a) {
-            if (d == c) return 0
-            else if (d > a && d < b) return d - c
-            else if (d == b) return d - c
-            else if (d > b) return b - c
-        } else if (c > a && c < b) {
-            if (d == c) return 0
-            else if (d > c && d < b) return d - c
-            else if (d == b) return b - c
-            else if (d > b) return b - c
-        } else if (c == b) {
-            if (d >= b) return 0
-        } else if (c < a) {
-            if (d == c) return -1
-            else if (d == a) return 0
-            else if (d > a && d < b) return d - a
-            else if (d >= b) return b - a
-        } else if (c > b) {
-            if (d >= c) return -1
+    if (ab > 0 && c in a..b) {
+        when {
+            c == d || c == b && d >= b -> return 0
+            c == a && (d in (a + 1) until b || d == b) || d < b-> return d - c
+            c == a && d > b || d >= b -> return b - c
         }
-        return -1
-    }
-    while (ab == 0) {
-        if (c < a) {
-            if (d < a) return -1
-            else if (d == a) return 0
-            else if (d > a) return 0
-        } else if (c == a) {
-            if (d == a) return 0
-            if (d > a) return 0
-        } else if (c > a) {
-            if (d >= c) return -1
+    } else if (ab > 0 && c !in a..b) {
+        when {
+            c < a && d == c || c in (b + 1)..d -> return -1
+            c < a && d == a -> return 0
+            a in (c + 1) until d && d < b -> return d - a
+            c < a && d >= b -> return b - a
         }
-        return -1
+    } else if (ab == 0) {
+        when {
+            a in c..d -> return 0
+            c < a && d < a || c in (a + 1)..d -> return -1
+        }
     }
     return -1
 }
