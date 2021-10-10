@@ -92,11 +92,11 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var a = 0
-    var b = 1
     var i = 2
-    var sumAB = 0
+    var b = 1
+    var a = 0
     while (i <= n) {
+        var sumAB = 0
         sumAB = a + b
         a = b
         b = sumAB
@@ -112,7 +112,7 @@ fun fib(n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
     var divisor = 1
-    while (divisor < n) {
+    while (divisor < sqrt(n.toDouble()).toInt()) {
         divisor += 1
         if (n % divisor == 0) return divisor
     }
@@ -124,15 +124,7 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    var divisor = 2
-    while (divisor < n) {
-        if (n % divisor == 0) return n / divisor
-        else if (n % divisor != 0) divisor += 1
-    }
-    if (divisor == n) return 1
-    return 0
-}
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая (2 балла)
@@ -168,8 +160,8 @@ fun collatzSteps(x: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var maxOf = max(m, n)
-    var minOf = min(m, n)
+    val maxOf = max(m, n)
+    val minOf = min(m, n)
     var k = max(m, n)
     while (k % minOf != 0) k += maxOf
     return k
@@ -183,8 +175,8 @@ fun lcm(m: Int, n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var minOf = min(m, n)
-    var maxOf = max(m, n)
+    val minOf = min(m, n)
+    val maxOf = max(m, n)
     if (maxOf == 1 || minOf == 1) return true
     if (maxOf % minOf == 0) return false
     if (isPrime(minOf) && maxOf % minOf != 0) {
@@ -215,7 +207,6 @@ fun revert(n: Int): Int {
         n1 /= 10
     }
     return nNew
-    return 0
 }
 
 /**
@@ -227,28 +218,7 @@ fun revert(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean {
-    var n1 = n
-    var percent = 0
-    var number1 = 0
-    var half = n1 % 10.toDouble().pow(digitNumber(n1) / 2 + 1).toInt() / 10.toDouble().pow(digitNumber(n1) / 2).toInt()
-    if (n1 < 10) return true
-    while (n1 >= 10) {
-        if (digitNumber(n1) % 2 == 0) {
-            number1 = n1 / 10.toDouble().pow(digitNumber(n1 - 1)).toInt()
-            percent = n % 10
-            n1 = n1 / 10 % 10.toDouble().pow(digitNumber(n1 - 2)).toInt()
-            if (number1 == percent) return true
-            else return false
-        } else if (digitNumber(n1) % 2 != 0) {
-            number1 = n1 / 10.toDouble().pow(digitNumber(n1 - 1)).toInt()
-            percent = n % 10
-            n1 = n1 / 10 % 10.toDouble().pow(digitNumber(n1 - 2)).toInt()
-            return number1 == percent && number1 != half
-        }
-    }
-    return false
-}
+fun isPalindrome(n: Int): Boolean = TODO()
 
 /**
  * Средняя (3 балла)
