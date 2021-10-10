@@ -192,7 +192,7 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     if (ab > 0 && c in a..b) {
         when {
             c == d || c == b && d >= b -> return 0
-            c == a && (d in (a + 1) until b || d == b) || d < b-> return d - c
+            c == a && (d in (a + 1) until b || d == b) || d < b -> return d - c
             c == a && d > b || d >= b -> return b - c
         }
     } else if (ab > 0 && c !in a..b) {
@@ -200,7 +200,7 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
             c < a && d == c || c in (b + 1)..d -> return -1
             c < a && d == a -> return 0
             a in (c + 1) until d && d < b -> return d - a
-            c < a && d >= b -> return b - a
+            c < a && d >= b -> return ab
         }
     } else if (ab == 0) {
         when {
