@@ -257,16 +257,14 @@ fun squareSequenceDigit(n: Int): Int {
     var i = 1
     var nNew = n
     var square = i * i
-    var number = 0
     while (digitNumber(square) < nNew) {
         nNew -= digitNumber(square)
         i += 1
         square = i * i
     }
-    if (digitNumber(square) > nNew) {
-        number = square / 10.toDouble().pow(digitNumber(square) - nNew).toInt() % 10
-    } else return square % 10
-    return number
+    return if (digitNumber(square) > nNew)
+        square / 10.toDouble().pow(digitNumber(square) - nNew).toInt() % 10
+    else square % 10
 }
 
 /**
