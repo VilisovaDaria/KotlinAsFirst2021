@@ -265,9 +265,7 @@ fun squareSequenceDigit(n: Int): Int {
     }
     if (digitNumber(square) > nNew) {
         number = square / 10.toDouble().pow(digitNumber(square) - nNew).toInt() % 10
-    } else if (nNew == digitNumber(square)) {
-        number = square % 10
-    }
+    } else return square % 10
     return number
 }
 
