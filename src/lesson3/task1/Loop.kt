@@ -278,18 +278,14 @@ fun squareSequenceDigit(n: Int): Int {
  */
 fun fibSequenceDigit(n: Int): Int {
     var remainder = n
-    var a = 0
     var i = 1
     while (digitNumber(fib(i)) < remainder) {
         remainder -= digitNumber(fib(i))
         i += 1
     }
-    if (remainder < digitNumber(fib(i))) {
-        a = fib(i) / 10.toDouble().pow(digitNumber(fib(i)) - remainder).toInt() % 10
-    } else if (remainder == digitNumber(fib(i))) {
-        a = fib(i) % 10
-    }
-    return a
+    return if (remainder < digitNumber(fib(i)))
+        fib(i) / 10.toDouble().pow(digitNumber(fib(i)) - remainder).toInt() % 10
+    else fib(i) % 10
 }
 
 
