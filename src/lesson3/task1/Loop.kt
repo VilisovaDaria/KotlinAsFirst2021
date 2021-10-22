@@ -260,7 +260,6 @@ fun squareSequenceDigit(n: Int): Int {
     while (digitNumber(square) < nNew) {
         nNew -= digitNumber(square)
         i += 1
-        square = i * i
     }
     return if (digitNumber(square) > nNew)
         square / 10.toDouble().pow(digitNumber(square) - nNew).toInt() % 10
@@ -277,16 +276,14 @@ fun squareSequenceDigit(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var remainder = n
+    val nNew = n
     var i = 1
-    while (digitNumber(fib(i)) < remainder) {
-        remainder -= digitNumber(fib(i))
+    var sum = 1
+    while (sum < nNew) {
         i += 1
+        sum += digitNumber(fib(i))
     }
-    return if (remainder < digitNumber(fib(i)))
-        fib(i) / 10.toDouble().pow(digitNumber(fib(i)) - remainder).toInt() % 10
-    else fib(i) % 10
+    return if (nNew == sum) fib(i) % 10
+    else fib(i) / 10.toDouble().pow(sum - nNew).toInt() % 10.toDouble().pow(sum - nNew).toInt()
 }
-
-
 
