@@ -3,7 +3,6 @@
 package lesson3.task1
 
 import kotlin.math.sqrt
-import kotlin.math.*
 import kotlin.math.pow
 
 // Урок 3: циклы
@@ -255,15 +254,14 @@ fun cos(x: Double, eps: Double): Double = TODO()
  */
 fun squareSequenceDigit(n: Int): Int {
     var i = 1
-    var nNew = n
-    var square = i * i
-    while (digitNumber(square) < nNew) {
-        nNew -= digitNumber(square)
+    var sum = 1
+    while (sum < n) {
         i += 1
+        sum += digitNumber(i * i)
     }
-    return if (digitNumber(square) > nNew)
-        square / 10.toDouble().pow(digitNumber(square) - nNew).toInt() % 10
-    else square % 10
+    return if (sum == n) i * i % 10
+    else return i * i / 10.toDouble().pow(sum - n).toInt() %
+            10.toDouble().pow(sum - n).toInt()
 }
 
 /**
@@ -276,14 +274,14 @@ fun squareSequenceDigit(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int {
-    val nNew = n
     var i = 1
     var sum = 1
-    while (sum < nNew) {
+    while (sum < n) {
         i += 1
         sum += digitNumber(fib(i))
     }
-    return if (nNew == sum) fib(i) % 10
-    else fib(i) / 10.toDouble().pow(sum - nNew).toInt() % 10.toDouble().pow(sum - nNew).toInt()
+    return if (n == sum) fib(i) % 10
+    else fib(i) / 10.toDouble().pow(sum - n).toInt() %
+            10.toDouble().pow(sum - n).toInt()
 }
 
