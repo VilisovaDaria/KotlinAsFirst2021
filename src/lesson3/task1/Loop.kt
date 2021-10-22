@@ -96,8 +96,7 @@ fun fib(n: Int): Int {
     var b = 1
     var a = 0
     while (i <= n) {
-        var sumAB = 0
-        sumAB = a + b
+        val sumAB = a + b
         a = b
         b = sumAB
         i += 1
@@ -112,11 +111,11 @@ fun fib(n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
     var divisor = 1
-    while (divisor < n) {
+    while (divisor < sqrt(n.toDouble()).toInt()) {
         divisor += 1
         if (n % divisor == 0) return divisor
     }
-    return 0
+    return n
 }
 
 /**
@@ -160,11 +159,18 @@ fun collatzSteps(x: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    val maxOf = max(m, n)
-    val minOf = min(m, n)
-    var k = max(m, n)
-    while (k % minOf != 0) k += maxOf
-    return k
+    val nodNew = nod(m, n)
+    return (m / nodNew) * (n / nodNew) * nodNew
+}
+
+fun nod(m: Int, n: Int): Int {
+    var mNew = m
+    var nNew = n
+    while (mNew != nNew) {
+        if (mNew > nNew) mNew -= nNew
+        else nNew -= mNew
+    }
+    return mNew
 }
 
 /**
@@ -174,21 +180,7 @@ fun lcm(m: Int, n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    val minOf = min(m, n)
-    val maxOf = max(m, n)
-    if (maxOf == 1 || minOf == 1) return true
-    if (maxOf % minOf == 0) return false
-    if (isPrime(minOf) && maxOf % minOf != 0) {
-        return true
-    } else {
-        for (i in 2 until minOf) {
-            if (m % i != 0 || n % i != 0) return true
-            return false
-        }
-    }
-    return false
-}
+fun isCoPrime(m: Int, n: Int): Boolean = m == 1 || n == 1 || nod(m, n) == 1
 
 /**
  * Средняя (3 балла)
@@ -269,11 +261,11 @@ fun squareSequenceDigit(n: Int): Int {
     while (digitNumber(square) < nNew) {
         nNew -= digitNumber(square)
         i += 1
-        square = i *i
+        square = i * i
     }
     if (digitNumber(square) > nNew) {
         number = square / 10.toDouble().pow(digitNumber(square) - nNew).toInt() % 10
-    } else if (nNew == digitNumber(square)){
+    } else if (nNew == digitNumber(square)) {
         number = square % 10
     }
     return number
@@ -303,5 +295,6 @@ fun fibSequenceDigit(n: Int): Int {
     }
     return a
 }
+
 
 
