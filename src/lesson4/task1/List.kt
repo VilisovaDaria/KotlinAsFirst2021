@@ -289,53 +289,73 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
 fun roman(n: Int): String {
     var a = ""
     var nNew = n
+
     while (nNew / 1000 > 0) {
         a += "M"
         nNew -= 1000
     }
+
     while (nNew / 100 > 0) {
+        for (i in 5..8) {
+            if (nNew / 100 == i) {
+                a += "D" + "C".repeat(nNew / 100 - 5)
+            }
+        }
+        for (i in 1..3) {
+            if (nNew / 100 == i) {
+                a += "D" + "C".repeat(nNew / 100 - 1)
+            }
+        }
         when {
             nNew / 100 == 9 -> a += "CM"
-            nNew / 100 == 8 -> a += "DCCC"
-            nNew / 100 == 7 -> a += "DCC"
-            nNew / 100 == 6 -> a += "DC"
-            nNew / 100 == 5 -> a += "D"
             nNew / 100 == 4 -> a += "CD"
-            nNew / 100 == 3 -> a += "CCC"
-            nNew / 100 == 2 -> a += "CC"
-            nNew / 100 == 1 -> a += "C"
         }
         nNew %= 100
     }
+
     while (nNew / 10 > 0) {
+        for (i in 5..8) {
+            if (nNew / 10 == i) {
+                a += "L" + "X".repeat(nNew / 10 - 5)
+            }
+        }
+        for (i in 1..3) {
+            if (nNew / 10 == i) {
+                a += "X".repeat(nNew / 10 - 1)
+            }
+        }
         when {
             nNew / 10 == 9 -> a += "XC"
-            nNew / 10 == 8 -> a += "LXXX"
-            nNew / 10 == 7 -> a += "LXX"
-            nNew / 10 == 6 -> a += "LX"
-            nNew / 10 == 5 -> a += "L"
             nNew / 10 == 4 -> a += "XL"
-            nNew / 10 == 3 -> a += "XXX"
-            nNew / 10 == 2 -> a += "XX"
-            nNew / 10 == 1 -> a += "X"
         }
         nNew %= 10
     }
+
     while (nNew % 10 > 0) {
+        for (i in 5..8) {
+            if (nNew % 10 == i) {
+                a += "V" + "I".repeat(nNew % 10 - 5)
+            }
+        }
+        for (i in 1..3) {
+            if (nNew % 10 == i) {
+                a += "I".repeat(nNew % 10)
+            }
+        }
         when {
             nNew % 10 == 9 -> a += "IX"
-            nNew % 10 == 8 -> a += "VIII"
-            nNew % 10 == 7 -> a += "VII"
-            nNew % 10 == 6 -> a += "VI"
-            nNew % 10 == 5 -> a += "V"
             nNew % 10 == 4 -> a += "IV"
-            nNew % 10 == 3 -> a += "III"
-            nNew % 10 == 2 -> a += "II"
-            nNew % 10 == 1 -> a += "I"
         }
         nNew -= nNew
     }
     return a
+}
+
+fun primer(a: Int): String {
+    var b = ""
+    var c = "A"
+    b += "a".repeat(3)
+    return b
 }
 
 /**
