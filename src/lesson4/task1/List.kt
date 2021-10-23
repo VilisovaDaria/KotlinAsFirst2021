@@ -3,6 +3,8 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.isCoPrime
+import lesson3.task1.isPrime
 import kotlin.math.sqrt
 import kotlin.math.*
 
@@ -219,7 +221,17 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> {
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    var list = mutableListOf<Int>()
+    var i = 2
+    var b = i
+    while (i<=n){
+        if (i*b == n && isPrime(i)) list.add(i, b)
+        if (n % i == 0 && isPrime(i)) list.add(i)
+        i+=1
+    }
+    return list.sorted()
+}
 
 /**
  * Сложная (4 балла)

@@ -260,8 +260,7 @@ fun squareSequenceDigit(n: Int): Int {
         sum += digitNumber(i * i)
     }
     return if (sum == n) i * i % 10
-    else return i * i / 10.toDouble().pow(sum - n).toInt() %
-            10.toDouble().pow(sum - n).toInt()
+    else return i * i / 10.toDouble().pow(sum - n).toInt() % 10
 }
 
 /**
@@ -281,7 +280,6 @@ fun fibSequenceDigit(n: Int): Int {
         sum += digitNumber(fib(i))
     }
     return if (n == sum) fib(i) % 10
-    else fib(i) / 10.toDouble().pow(sum - n).toInt() %
-            10.toDouble().pow(sum - n).toInt()
+    else fib(i) / 10.toDouble().pow(sum - n).toInt() % 10
 }
 
