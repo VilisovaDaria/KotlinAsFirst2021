@@ -1,4 +1,4 @@
- @file:Suppress("UNUSED_PARAMETER", "ConvertCallChainIntoSequence")
+@file:Suppress("UNUSED_PARAMETER", "ConvertCallChainIntoSequence")
 
 package lesson4.task1
 
@@ -200,7 +200,17 @@ fun polynom(p: List<Int>, x: Int): Int {
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
+fun accumulate(list: MutableList<Int>): MutableList<Int> {
+    var i = 0
+    for (item in 1 until list.size) {
+        while (i != item) {
+            list[item] += list[i]
+            i += 1
+        }
+
+    }
+    return list
+}
 
 /**
  * Средняя (3 балла)
