@@ -221,17 +221,8 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> {
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> {
-    var list = mutableListOf<Int>()
-    var i = 2
-    var b = i
-    while (i<=n){
-        if (i*b == n && isPrime(i)) list.add(i, b)
-        if (n % i == 0 && isPrime(i)) list.add(i)
-        i+=1
-    }
-    return list.sorted()
-}
+fun factorize(n: Int): List<Int> = TODO()
+
 
 /**
  * Сложная (4 балла)
@@ -295,7 +286,57 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    var a = ""
+    var nNew = n
+    while (nNew / 1000 > 0) {
+        a += "M"
+        nNew -= 1000
+    }
+    while (nNew / 100 > 0) {
+        when {
+            nNew / 100 == 9 -> a += "CM"
+            nNew / 100 == 8 -> a += "DCCC"
+            nNew / 100 == 7 -> a += "DCC"
+            nNew / 100 == 6 -> a += "DC"
+            nNew / 100 == 5 -> a += "D"
+            nNew / 100 == 4 -> a += "CD"
+            nNew / 100 == 3 -> a += "CCC"
+            nNew / 100 == 2 -> a += "CC"
+            nNew / 100 == 1 -> a += "C"
+        }
+        nNew %= 100
+    }
+    while (nNew / 10 > 0) {
+        when {
+            nNew / 10 == 9 -> a += "XC"
+            nNew / 10 == 8 -> a += "LXXX"
+            nNew / 10 == 7 -> a += "LXX"
+            nNew / 10 == 6 -> a += "LX"
+            nNew / 10 == 5 -> a += "L"
+            nNew / 10 == 4 -> a += "XL"
+            nNew / 10 == 3 -> a += "XXX"
+            nNew / 10 == 2 -> a += "XX"
+            nNew / 10 == 1 -> a += "X"
+        }
+        nNew %= 10
+    }
+    while (nNew % 10 > 0) {
+        when {
+            nNew % 10 == 9 -> a += "IX"
+            nNew % 10 == 8 -> a += "VIII"
+            nNew % 10 == 7 -> a += "VII"
+            nNew % 10 == 6 -> a += "VI"
+            nNew % 10 == 5 -> a += "V"
+            nNew % 10 == 4 -> a += "IV"
+            nNew % 10 == 3 -> a += "III"
+            nNew % 10 == 2 -> a += "II"
+            nNew % 10 == 1 -> a += "I"
+        }
+        nNew -= nNew
+    }
+    return a
+}
 
 /**
  * Очень сложная (7 баллов)
