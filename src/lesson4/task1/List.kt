@@ -321,7 +321,7 @@ fun roman(n: Int): String {
         }
         for (i in 1..3) {
             if (nNew / 10 == i) {
-                a += "X".repeat(nNew / 10 - 1)
+                a += "X".repeat(nNew / 10)
             }
         }
         when {
@@ -349,13 +349,6 @@ fun roman(n: Int): String {
         nNew -= nNew
     }
     return a
-}
-
-fun primer(a: Int): String {
-    var b = ""
-    var c = "A"
-    b += "a".repeat(3)
-    return b
 }
 
 /**
