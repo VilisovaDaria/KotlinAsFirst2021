@@ -303,7 +303,7 @@ fun roman(n: Int): String {
         }
         for (i in 1..3) {
             if (nNew / 100 == i) {
-                a += "D" + "C".repeat(nNew / 100 - 1)
+                a += "D" + "C".repeat(nNew / 100)
             }
         }
         when {
