@@ -130,13 +130,14 @@ fun abs(v: List<Double>) = sqrt(v.sumOf { it.pow(2) })
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
+
 fun mean(list: List<Double>): Double {
-    return if (list != listOf<Double>()) list.sum() / list.size
+    return if (list.isNotEmpty()) list.sum() / list.size
     else 0.0
 }
 
 /**
- * Средняя (3 балла)
+ *ьme Средняя (3 балла)
  *
  * Центрировать заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
  * Если список пуст, не делать ничего. Вернуть изменённый список.
@@ -145,7 +146,7 @@ fun mean(list: List<Double>): Double {
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     val meanNew = mean(list)
-    if (list != listOf<Double>()) {
+    if (list.isNotEmpty()) {
         for (i in 0 until list.size) {
             list[i] -= meanNew
         }
@@ -161,12 +162,10 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
 fun times(a: List<Int>, b: List<Int>): Int {
-    val aNew = a.toMutableList()
-    val bNew = b.toMutableList()
     val c = mutableListOf<Int>()
     var i = 0
-    while (i != bNew.size && i != aNew.size) {
-        c.add(aNew[i] * bNew[i])
+    while (i != b.size && i != a.size) {
+        c.add(a[i] * b[i])
         i += 1
     }
     return c.sum()
@@ -182,11 +181,10 @@ fun times(a: List<Int>, b: List<Int>): Int {
  * Значение пустого многочлена равно 0 при любом x.
  */
 fun polynom(p: List<Int>, x: Int): Int {
-    val pNew = p.toMutableList()
     val c = mutableListOf<Int>()
     var i = 0
-    while (i != pNew.size) {
-        c.add(pNew[i] * x.toDouble().pow(i).toInt())
+    while (i != p.size) {
+        c.add(p[i] * x.toDouble().pow(i).toInt())
         i += 1
     }
     return c.sum()
@@ -205,11 +203,8 @@ fun polynom(p: List<Int>, x: Int): Int {
 fun accumulate(list: MutableList<Int>): MutableList<Int> {
     var i = 0
     for (item in 1 until list.size) {
-        while (i != item) {
-            list[item] += list[i]
-            i += 1
-        }
-
+        list[item] += list[i]
+        i += 1
     }
     return list
 }
