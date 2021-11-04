@@ -3,8 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import lesson3.task1.isCoPrime
-import lesson3.task1.isPrime
+import lesson3.task1.digitNumber
 import kotlin.math.sqrt
 import kotlin.math.*
 
@@ -131,10 +130,10 @@ fun abs(v: List<Double>) = sqrt(v.sumOf { it.pow(2) })
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 
-fun mean(list: List<Double>): Double {
-    return if (list.isNotEmpty()) list.sum() / list.size
+fun mean(list: List<Double>): Double =
+    if (list.isNotEmpty()) list.sum() / list.size
     else 0.0
-}
+
 
 /**
  *ьme Средняя (3 балла)
@@ -353,4 +352,90 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    return when {
+        digitNumber(n) == 1 -> unit(n)
+        digitNumber(n) == 2 -> dozen(n)
+        digitNumber(n) == 3 -> hundread(n)
+        digitNumber(n) == 4 -> thousands(n)
+        digitNumber(n) == 5 -> tensOf(n)
+        digitNumber(n) == 6 -> hundreadOf(n)
+        else -> ""
+    }
+}
+
+fun unit(x: Int): String {
+    val unit = arrayListOf<String>(
+        "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь",
+        "девять"
+    )
+    return if (x % 10 > 0) unit[x - 1]
+    else ""
+}
+
+fun dozen(x: Int): String {
+    val dozens = arrayListOf<String>(
+        "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать",
+        "семнадцать", "восемнадцать", "девятнадцать"
+    )
+    val dozensNew = arrayListOf<String>(
+        "десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят",
+        "семьдесят", "восемьдесят", "девяносто"
+    )
+    if (digitNumber(x) == 2) {
+        if (x % 10 == 0 && x / 10 > 1) return dozensNew[x / 10 - 1]
+        if (x % 10 != 0 && x / 10 > 1) return "${dozensNew[x / 10 - 1]} ${unit(x % 10)}"
+        else return dozens[x % 10 - 1]
+    }
+    return unit(x % 10)
+}
+
+fun hundread(x: Int): String {
+    val hundreads = arrayListOf<String>(
+        "сто", "двести", "триста", "четыреста", "пятьсот",
+        "шестьсот", "семьсот", "восемьсот", "девятьсот"
+    )
+    return if (digitNumber(x) == 3) "${hundreads[x / 100 - 1]} ${dozen(x % 100)}"
+    else dozen(x % 100)
+}
+
+fun thousands(x: Int): String {
+    val unit = arrayListOf<String>(
+        "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь",
+        "девять"
+    )
+    val f = arrayListOf<String>("тысяч", "тысяча", "тысячи")
+    if (digitNumber(x) == 4) {
+        if (x / 1000 == 1) return "${unit[0]} ${f[1]} ${hundread(x % 1000)}"
+        return if (x / 1000 == 2 || x / 1000 == 3) "${unit[x / 1000 - 1]} ${f[2]} ${hundread(x % 1000)}"
+        else "${unit[x / 1000 - 1]} ${f[0]} ${hundread(x % 1000)}"
+    }
+    return if (x % 1000 > 0) "тысяч ${hundread(x % 1000)}"
+    else "тысяч"
+}
+
+fun tensOf(x: Int): String {
+    val dozens = arrayListOf<String>(
+        "десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать",
+        "семнадцать", "восемнадцать", "девятнадцать"
+    )
+    val doz = arrayListOf<String>(
+        "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят",
+        "семьдесят", "восемьдесят", "девяносто"
+    )
+    val f = arrayListOf<String>("тысяч")
+    if (digitNumber(x) == 5) {
+        return if (x / 10000 == 1) "${dozens[x / 1000 % 10]} ${f[0]} ${hundread(x % 1000)}"
+        else "${doz[x / 10000 - 2]} ${thousands(x % 10000)}"
+    }
+    return thousands(x % 10000)
+}
+
+fun hundreadOf(x: Int): String {
+    val d = arrayListOf<String>(
+        "сто", "двести", "триста", "четыреста", "пятьсот",
+        "шестьсот", "семьсот", "восемьсот", "девятьсот"
+    )
+    return if (digitNumber(x) == 6) "${d[x / 100000 - 1]} ${tensOf(x % 100000)}"
+    else ""
+}
