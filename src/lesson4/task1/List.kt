@@ -407,7 +407,8 @@ fun thousands(x: Int): String {
     val f = arrayListOf<String>("тысяч", "тысяча", "тысячи")
     if (digitNumber(x) == 4) {
         if (x / 1000 == 1) return "${unit[0]} ${f[1]} ${hundread(x % 1000)}"
-        return if (x / 1000 == 2 || x / 1000 == 3) "${unit[x / 1000 - 1]} ${f[2]} ${hundread(x % 1000)}"
+        return if (x / 1000 == 2 || x / 1000 == 3 || x / 1000 == 4)
+            "${unit[x / 1000 - 1]} ${f[2]} ${hundread(x % 1000)}"
         else "${unit[x / 1000 - 1]} ${f[0]} ${hundread(x % 1000)}"
     }
     return if (x % 1000 > 0) "тысяч ${hundread(x % 1000)}"
