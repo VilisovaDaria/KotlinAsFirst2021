@@ -136,7 +136,7 @@ fun mean(list: List<Double>): Double =
 
 
 /**
- *ьme Средняя (3 балла)
+ * Средняя (3 балла)
  *
  * Центрировать заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
  * Если список пуст, не делать ничего. Вернуть изменённый список.
@@ -145,10 +145,8 @@ fun mean(list: List<Double>): Double =
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     val meanNew = mean(list)
-    if (list.isNotEmpty()) {
-        for (i in 0 until list.size) {
-            list[i] -= meanNew
-        }
+    for (i in 0 until list.size) {
+        list[i] -= meanNew
     }
     return list
 }
@@ -161,13 +159,11 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
 fun times(a: List<Int>, b: List<Int>): Int {
-    val c = mutableListOf<Int>()
-    var i = 0
-    while (i != b.size && i != a.size) {
-        c.add(a[i] * b[i])
-        i += 1
+    var f = 0
+    for (i in a.indices) {
+        f += a[i] * b[i]
     }
-    return c.sum()
+    return f
 }
 
 
@@ -180,13 +176,11 @@ fun times(a: List<Int>, b: List<Int>): Int {
  * Значение пустого многочлена равно 0 при любом x.
  */
 fun polynom(p: List<Int>, x: Int): Int {
-    val c = mutableListOf<Int>()
-    var i = 0
-    while (i != p.size) {
-        c.add(p[i] * x.toDouble().pow(i).toInt())
-        i += 1
+    var f = 0
+    for (i in p.indices) {
+        f += p[i] * x.toDouble().pow(i).toInt()
     }
-    return c.sum()
+    return f
 }
 
 /**
@@ -200,10 +194,8 @@ fun polynom(p: List<Int>, x: Int): Int {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun accumulate(list: MutableList<Int>): MutableList<Int> {
-    var i = 0
     for (item in 1 until list.size) {
-        list[item] += list[i]
-        i += 1
+        list[item] += list[item - 1]
     }
     return list
 }
