@@ -4,7 +4,7 @@ package lesson6.task1
 
 import lesson3.task1.digitNumber
 import java.lang.IndexOutOfBoundsException
-import kotlin.IndexOutOfBoundsException
+
 
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13

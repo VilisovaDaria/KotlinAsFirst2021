@@ -387,7 +387,8 @@ fun hundread(x: Int): String {
         "сто", "двести", "триста", "четыреста", "пятьсот",
         "шестьсот", "семьсот", "восемьсот", "девятьсот"
     )
-    return if (digitNumber(x) == 3) "${hundreads[x / 100 - 1]} ${dozen(x % 100)}"
+    if (digitNumber(x) == 3 && x % 10 != 0) return "${hundreads[x / 100 - 1]} ${dozen(x % 100)}"
+    return if (digitNumber(x) == 3 && x % 10 == 0) hundreads[x / 100 - 1]
     else dozen(x % 100)
 }
 
