@@ -2,6 +2,8 @@
 
 package lesson6.task1
 
+import lesson3.task1.digitNumber
+
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
 // Рекомендуемое количество баллов = 11
@@ -74,7 +76,53 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val paret = str.split(" ")
+    var data = ""
+    val s = paret[2]
+    var mo = ""
+    var h = ""
+    try {
+        val a = paret[0].toInt()
+            if (digitNumber(a) == 1) {
+                data = "0$a"
+            } else {
+                data = paret[0]
+            }
+            val b = paret[1]
+            mo = month(paret[1])
+            h = "$data.$mo.$s"
+        return h}
+     catch (e: NumberFormatException) {
+        return ""
+    }
+}
+
+
+fun month(x: String): String {
+    var a = ""
+    val month: Map<String, String> = mapOf(
+        "января" to "1", "февраля" to "2",
+        "марта" to "3",
+        "апреля" to "4",
+        "мая" to "5",
+        "июня" to "6",
+        "июля" to "7",
+        "августа" to "8",
+        "сентября" to "9",
+        "октября" to "10",
+        "ноября" to "11",
+        "декабря" to "12"
+    )
+    for ((n, c) in month) {
+        if (x == n) {
+            a = c
+        }
+    }
+    val d = a.toInt()
+    if (digitNumber(d) == 1) return "0$a"
+    else return a
+}
 
 /**
  * Средняя (4 балла)
