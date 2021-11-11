@@ -3,6 +3,7 @@
 package lesson6.task1
 
 import lesson3.task1.digitNumber
+import java.lang.IndexOutOfBoundsException
 
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
@@ -91,9 +92,12 @@ fun dateStrToDigit(str: String): String {
             }
             val b = paret[1]
             mo = month(paret[1])
-            h = "$data.$mo.$s"
+            if (digitNumber(s.toInt())==4) {
+            h = "$data.$mo.$s"}
         return h}
      catch (e: NumberFormatException) {
+        return ""
+    }catch (e: IndexOutOfBoundsException) {
         return ""
     }
 }
