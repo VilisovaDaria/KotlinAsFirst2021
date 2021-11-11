@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import kotlin.math.*
+
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
 // Рекомендуемое количество баллов = 9
@@ -85,7 +87,6 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
     return res
 }
 
-
 /**
  * Простая (2 балла)
  *
@@ -96,7 +97,22 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
+    val gradesNew = mutableMapOf<Int, List<String>>()
+    for (i in 5 downTo 2) {
+        val a = mutableListOf<String>()
+        for ((name, mark) in grades) {
+            if (mark == i) {
+                a.add(name)
+            }
+        }
+        if (a.isNotEmpty()) {
+            gradesNew[i] = a
+        }
+    }
+    return gradesNew
+}
+
 
 /**
  * Простая (2 балла)
