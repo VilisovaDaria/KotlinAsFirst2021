@@ -86,19 +86,17 @@ fun dateStrToDigit(str: String): String {
     var h = ""
     try {
         val a = paret[0].toInt()
-            if (digitNumber(a) == 1) {
-                data = "0$a"
-            } else {
-                data = paret[0]
-            }
-            val b = paret[1]
-            mo = month(paret[1])
-
-        return h}
-     catch (e: NumberFormatException) {
+        if (digitNumber(a) == 1) {
+            data = "0$a"
+        } else {
+            data = paret[0]
+        }
+        mo = month(paret[1])
+        h = "$data.$mo.$s"
+        return h
+    } catch (e: NumberFormatException) {
         return ""
-    }
-    catch (e: IndexOutOfBoundsException) {
+    } catch (e: IndexOutOfBoundsException) {
         return ""
     }
 }
