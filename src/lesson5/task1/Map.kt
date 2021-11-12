@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import ru.spbstu.ktuples.Variant
+import ru.spbstu.wheels.PositiveInfinity
 import kotlin.math.*
 
 // Урок 5: ассоциативные массивы и множества
@@ -98,21 +100,19 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
 fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
-    val gradesNew = mutableMapOf<Int, List<String>>()
-    for (i in 5 downTo 0) {
-        val a = mutableListOf<String>()
-        for ((name, mark) in grades) {
-            if (mark == i) {
+    val gradesNew = mutableMapOf<Int, MutableList<String>>()
+    for ((name, mark) in grades) {
+        if (mark in gradesNew) {
+            val a = gradesNew[mark]
+            if (a != null) {
                 a.add(name)
             }
-        }
-        if (a.isNotEmpty()) {
-            gradesNew[i] = a
+        } else {
+            gradesNew.put(mark, mutableListOf(name))
         }
     }
     return gradesNew
 }
-
 
 /**
  * Простая (2 балла)
@@ -152,6 +152,7 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
 fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
+
 
 /**
  * Средняя (3 балла)
