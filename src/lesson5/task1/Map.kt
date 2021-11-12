@@ -104,11 +104,9 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
     for ((name, mark) in grades) {
         if (mark in gradesNew) {
             val a = gradesNew[mark]
-            if (a != null) {
-                a.add(name)
-            }
+            a?.add(name)
         } else {
-            gradesNew.put(mark, mutableListOf(name))
+            gradesNew[mark] = mutableListOf(name)
         }
     }
     return gradesNew
@@ -151,7 +149,13 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
  * В выходном списке не должно быть повторяющихся элементов,
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
+    val result = mutableListOf<String>()
+    for (item in a) {
+        if (item in b) result.add(item)
+    }
+    return result
+}
 
 
 /**
