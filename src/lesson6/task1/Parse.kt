@@ -5,6 +5,7 @@ package lesson6.task1
 import lesson2.task2.daysInMonth
 import lesson3.task1.digitNumber
 import kotlin.IndexOutOfBoundsException
+import kotlin.text.StringBuilder
 
 
 // Урок 6: разбор строк, исключения
@@ -80,27 +81,26 @@ fun main() {
  * входными данными.
  */
 fun dateStrToDigit(str: String): String {
-    val paret = str.split(" ")
+    val strNew = str.split(" ")
     var data = ""
-    var mo = ""
-    var h = ""
+    var month = ""
+    var result = ""
     try {
-        val a = paret[0].toInt()
-        if (a<=daysInMonth(month(paret[1]).toInt(), paret[2].toInt())){
-            if (digitNumber(a) == 1) {
-                data = "0$a"
+        val a = strNew[0].toInt()
+        return if (a <= daysInMonth(month(strNew[1]).toInt(), strNew[2].toInt())) {
+            data = if (digitNumber(a) == 1) {
+                "0$a"
+            } else {
+                strNew[0]
             }
-            else if (digitNumber(a) == 2) {
-                data = paret[0]
-            }
-            mo = month(paret[1])
-            h = "$data.$mo.${paret[2]}"
-            return h}
-        else return ""
+            month = month(strNew[1])
+            result = "$data.${month}.${strNew[2]}"
+            result
+        } else ""
 
     } catch (e: IndexOutOfBoundsException) {
-        return ""}
-     catch (e: NumberFormatException) {
+        return ""
+    } catch (e: Exception) {
         return ""
     }
 }
@@ -110,25 +110,20 @@ fun month(x: String): String {
     var a = ""
     val month: Map<String, String> = mapOf(
         "января" to "1", "февраля" to "2",
-        "марта" to "3",
-        "апреля" to "4",
-        "мая" to "5",
-        "июня" to "6",
-        "июля" to "7",
-        "августа" to "8",
-        "сентября" to "9",
-        "октября" to "10",
-        "ноября" to "11",
-        "декабря" to "12"
+        "марта" to "3", "апреля" to "4",
+        "мая" to "5", "июня" to "6",
+        "июля" to "7", "августа" to "8",
+        "сентября" to "9", "октября" to "10",
+        "ноября" to "11", "декабря" to "12"
     )
-    for ((n, c) in month) {
-        if (x == n) {
-            a = c
+    for ((name, number) in month) {
+        if (x == name) {
+            a = number
         }
     }
     val d = a.toInt()
-    if (digitNumber(d) == 1) return "0$a"
-    else return a
+    return if (digitNumber(d) == 1) "0$a"
+    else a
 }
 
 /**
