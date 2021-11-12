@@ -2,6 +2,7 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
 import lesson3.task1.digitNumber
 import kotlin.IndexOutOfBoundsException
 
@@ -88,7 +89,7 @@ fun dateStrToDigit(str: String): String {
         if (digitNumber(a) == 1) {
             data = "0$a"
         }
-        if (a<32 && digitNumber(a) == 2) {
+        if (a<= daysInMonth(month(paret[1]).toInt(), paret[2].toInt()) && digitNumber(a) == 2) {
             data = paret[0]
         }
         mo = month(paret[1])
