@@ -3,7 +3,7 @@
 package lesson6.task1
 
 import lesson3.task1.digitNumber
-import java.lang.IndexOutOfBoundsException
+import kotlin.IndexOutOfBoundsException
 
 
 // Урок 6: разбор строк, исключения
@@ -81,7 +81,6 @@ fun main() {
 fun dateStrToDigit(str: String): String {
     val paret = str.split(" ")
     var data = ""
-    val s = paret[2]
     var mo = ""
     var h = ""
     try {
@@ -92,11 +91,11 @@ fun dateStrToDigit(str: String): String {
             data = paret[0]
         }
         mo = month(paret[1])
-        h = "$data.$mo.$s"
+        h = "$data.$mo.${paret[2]}"
         return h
-    } catch (e: NumberFormatException) {
-        return ""
     } catch (e: IndexOutOfBoundsException) {
+        return ""}
+     catch (e: Exception) {
         return ""
     }
 }
