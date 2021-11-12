@@ -375,8 +375,8 @@ fun dozen(x: Int): String {
         "семьдесят", "восемьдесят", "девяносто"
     )
     if (digitNumber(x) == 2) {
-        if (x % 10 == 0 && x / 10 > 1) return dozensNew[x / 10 - 1]
-        if (x % 10 != 0 && x / 10 > 1) return "${dozensNew[x / 10 - 1]} ${unit(x % 10)}"
+        if (x % 10 == 0 && x / 10 >= 1) return dozensNew[x / 10 - 1]
+        if (x % 10 != 0 && x / 10 >= 1) return "${dozensNew[x / 10 - 1]} ${unit(x % 10)}"
         else return dozens[x % 10 - 1]
     }
     return unit(x % 10)
