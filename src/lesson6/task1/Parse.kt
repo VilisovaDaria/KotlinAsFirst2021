@@ -2,8 +2,10 @@
 
 package lesson6.task1
 
+import kotlinx.html.B
 import lesson2.task2.daysInMonth
 import lesson3.task1.digitNumber
+import java.lang.IllegalArgumentException
 import kotlin.IndexOutOfBoundsException
 import kotlin.text.StringBuilder
 
@@ -188,7 +190,43 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val str = expression.split(" ")
+    var f = str[0].toInt()
+    var n = 0
+    if (format(expression)) {
+        while (n+1 < str.size) {  // 5 - 6 длина у стр 2, пока 0 меньше 2
+            if (str[n + 1] == "+") {
+                f += str[n + 2].toInt()
+            } else f -= str[n + 2].toInt() // иначе 5 уменьшить на 6
+            n += 2
+        }
+        return f
+    } else throw IllegalArgumentException("")
+}
+
+
+fun a(x: String): Boolean {
+    val s = x.split(" ")
+    if (s[0][0].digitToIntOrNull() == null) return false
+    else return true
+}
+
+
+
+fun format(x: String): Boolean {
+    val str = x.split(" ")
+    if (str.size == 2) return false
+    if (str[0][0].digitToIntOrNull() == null) return false
+    if (str.size > 2) {
+        for (a in str.indices step 2) {
+            for (b in 1 until str.size step 2) {
+                if (str[b] != "+" && str[b] != "-" || str[a].toIntOrNull() == null || str[a][0].digitToIntOrNull() == null) return false
+            }
+        }
+    }
+    return true
+}
 
 /**
  * Сложная (6 баллов)
