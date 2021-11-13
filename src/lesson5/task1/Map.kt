@@ -170,20 +170,19 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
-    val itog = mutableMapOf<String, String>()
-    val name = mutableListOf<String>()
+    val result = mutableMapOf<String, String>()
     val k = mapA + mapB
-    itog.putAll(k)
+    result.putAll(k)
     for ((a, b) in mapA) {
-
         if (a in mapB) {
             if (mapA[a] != mapB[a]) {
                 val c = "${mapA[a]}, ${mapB[a].toString()}"
-                itog.put(a, c)
+                result[a] = c
             }
-        }}
-
-    return itog}
+        }
+    }
+    return result
+}
 
 /**
  * Средняя (4 балла)
