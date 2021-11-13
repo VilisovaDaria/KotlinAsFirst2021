@@ -195,23 +195,15 @@ fun plusMinus(expression: String): Int {
     var f = str[0].toInt()
     var n = 0
     if (format(expression)) {
-        while (n+1 < str.size) {  // 5 - 6 длина у стр 2, пока 0 меньше 2
+        while (n + 1 < str.size) {
             if (str[n + 1] == "+") {
                 f += str[n + 2].toInt()
-            } else f -= str[n + 2].toInt() // иначе 5 уменьшить на 6
+            } else f -= str[n + 2].toInt()
             n += 2
         }
         return f
     } else throw IllegalArgumentException("")
 }
-
-
-fun a(x: String): Boolean {
-    val s = x.split(" ")
-    if (s[0][0].digitToIntOrNull() == null) return false
-    else return true
-}
-
 
 
 fun format(x: String): Boolean {
@@ -221,7 +213,9 @@ fun format(x: String): Boolean {
     if (str.size > 2) {
         for (a in str.indices step 2) {
             for (b in 1 until str.size step 2) {
-                if (str[b] != "+" && str[b] != "-" || str[a].toIntOrNull() == null || str[a][0].digitToIntOrNull() == null) return false
+                if (str[b] != "+" && str[b] != "-" || str[a].toIntOrNull() == null ||
+                    str[a][0].digitToIntOrNull() == null
+                ) return false
             }
         }
     }
