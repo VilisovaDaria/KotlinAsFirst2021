@@ -149,13 +149,7 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
  * В выходном списке не должно быть повторяющихся элементов,
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
-    val result = mutableListOf<String>()
-    for (item in a) {
-        if (item in b) result.add(item)
-    }
-    return result
-}
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
 
 
 /**
@@ -175,7 +169,21 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
  *     mapOf("Emergency" to "911", "Police" to "02")
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
-fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> = TODO()
+fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
+    val itog = mutableMapOf<String, String>()
+    val name = mutableListOf<String>()
+    val k = mapA + mapB
+    itog.putAll(k)
+    for ((a, b) in mapA) {
+
+        if (a in mapB) {
+            if (mapA[a] != mapB[a]) {
+                val c = "${mapA[a]}, ${mapB[a].toString()}"
+                itog.put(a, c)
+            }
+        }}
+
+    return itog}
 
 /**
  * Средняя (4 балла)
