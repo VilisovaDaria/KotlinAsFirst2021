@@ -66,8 +66,9 @@ fun deleteMarked(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     for (line in File(inputName).readLines()) {
         if (line.isNotEmpty() && line[0] == '_') {
-            line.replace(line, "${writer.newLine()}")
-        } else writer.write(line)
+            line.replace(line, "")
+        } else {writer.write(line)
+            writer.newLine()}
     }
     writer.close()
 }
