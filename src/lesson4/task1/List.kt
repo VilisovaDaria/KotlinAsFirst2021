@@ -425,8 +425,7 @@ fun tensOf(x: Int): String {
     val f = arrayListOf<String>("тысяч")
     if (digitNumber(x) == 5) {
         if (x / 10000 == 1 && x % 1000 > 0) return "${dozens[x / 1000 % 10]} ${f[0]} ${hundread(x % 1000)}"
-        if (x / 10000 == 1 && x % 1000 == 0) return "${dozens[x / 1000 % 10]} ${f[0]}"
-        if (x / 1000 >= 1 && x % 1000 == 0) return "${dozens[x / 1000 % 10]} ${f[0]}"
+        return if (x / 1000 >= 1 && x % 1000 == 0) "${dozens[x / 1000 % 10]} ${f[0]}"
         else "${doz[x / 10000 - 2]} ${thousands(x % 10000)}"
     }
     return thousands(x % 10000)
