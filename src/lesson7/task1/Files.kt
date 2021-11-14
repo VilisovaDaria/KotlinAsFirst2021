@@ -2,6 +2,7 @@
 
 package lesson7.task1
 
+import lesson4.task1.dozen
 import java.io.File
 
 // Урок 7: работа с файлами
@@ -67,8 +68,10 @@ fun deleteMarked(inputName: String, outputName: String) {
     for (line in File(inputName).readLines()) {
         if (line.isNotEmpty() && line[0] == '_') {
             line.replace(line, "")
-        } else {writer.write(line)
-            writer.newLine()}
+        } else {
+            writer.write(line)
+            writer.newLine()
+        }
     }
     writer.close()
 }
@@ -99,9 +102,52 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+
+    for (line in File(inputName).readLines()) {
+        for (word in arrayListOf<String>(line)) {
+            writer.write(rule(word))
+        }
+        writer.newLine()
+    }
+    writer.close()
 }
 
+
+
+fun rule(word: String): String {
+    val char = word.toCharArray()
+    for (i in 0 until (word.length - 1)) {
+        if (word.toLowerCase() != "жури" && word.toLowerCase() != "брошура" && word.toLowerCase() != "парашут") {
+            if ((char[i].toLowerCase() == 'ч' || char[i].toLowerCase() == 'щ' ||
+                        char[i].toLowerCase() == 'ж' || char[i].toLowerCase() == 'ш') && char[i + 1].toLowerCase() == 'ы'
+            ) {
+                if (char[i + 1].isUpperCase()) char[i + 1] = 'И'
+                else char[i + 1] = 'и'
+            }
+
+            if ((char[i].toLowerCase() == 'ч' || char[i].toLowerCase() == 'щ' ||
+                        char[i].toLowerCase() == 'ж' || char[i].toLowerCase() == 'ш') && char[i + 1].toLowerCase() == 'я'
+            ) {
+                if (char[i + 1].isUpperCase()) char[i + 1] = 'А'
+                else char[i + 1] = 'а'
+            }
+
+
+            if ((char[i].toLowerCase() == 'ч' || char[i].toLowerCase() == 'щ' ||
+                        char[i].toLowerCase() == 'ж' || char[i].toLowerCase() == 'ш') && char[i + 1].toLowerCase() == 'ю'
+            ) {
+                if (char[i + 1].isUpperCase()) char[i + 1] = 'У'
+                else char[i + 1] = 'у'
+            }
+        } else
+            if ((char[i].toLowerCase() == 'ж' || char[i].toLowerCase() == 'ш') && char[i + 1].toLowerCase() == 'у') {
+                if (char[i + 1].isUpperCase()) char[i + 1] = 'Ю'
+                else char[i + 1] = 'ю'
+            }
+    }
+    return String(char)
+}
 /**
  * Средняя (15 баллов)
  *
