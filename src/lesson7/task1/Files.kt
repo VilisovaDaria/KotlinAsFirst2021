@@ -118,16 +118,20 @@ fun sibilants(inputName: String, outputName: String) {
 fun rule(word: String): String {
     val char = word.toCharArray()
     for (i in 0 until (word.length - 1)) {
-        if (word.toLowerCase() != "жури" && word.toLowerCase() != "брошура" && word.toLowerCase() != "парашут") {
+        if (word.toLowerCase() != "жури" && word.toLowerCase() != "брошура" &&
+            word.toLowerCase() != "парашут") {
+
             if ((char[i].toLowerCase() == 'ч' || char[i].toLowerCase() == 'щ' ||
-                        char[i].toLowerCase() == 'ж' || char[i].toLowerCase() == 'ш') && char[i + 1].toLowerCase() == 'ы'
+                        char[i].toLowerCase() == 'ж' ||
+                        char[i].toLowerCase() == 'ш') && char[i + 1].toLowerCase() == 'ы'
             ) {
                 if (char[i + 1].isUpperCase()) char[i + 1] = 'И'
                 else char[i + 1] = 'и'
             }
 
             if ((char[i].toLowerCase() == 'ч' || char[i].toLowerCase() == 'щ' ||
-                        char[i].toLowerCase() == 'ж' || char[i].toLowerCase() == 'ш') && char[i + 1].toLowerCase() == 'я'
+                        char[i].toLowerCase() == 'ж' || char[i].toLowerCase() == 'ш')
+                && char[i + 1].toLowerCase() == 'я'
             ) {
                 if (char[i + 1].isUpperCase()) char[i + 1] = 'А'
                 else char[i + 1] = 'а'
@@ -135,13 +139,15 @@ fun rule(word: String): String {
 
 
             if ((char[i].toLowerCase() == 'ч' || char[i].toLowerCase() == 'щ' ||
-                        char[i].toLowerCase() == 'ж' || char[i].toLowerCase() == 'ш') && char[i + 1].toLowerCase() == 'ю'
+                        char[i].toLowerCase() == 'ж' || char[i].toLowerCase() == 'ш')
+                && char[i + 1].toLowerCase() == 'ю'
             ) {
                 if (char[i + 1].isUpperCase()) char[i + 1] = 'У'
                 else char[i + 1] = 'у'
             }
         } else
-            if ((char[i].toLowerCase() == 'ж' || char[i].toLowerCase() == 'ш') && char[i + 1].toLowerCase() == 'у') {
+            if ((char[i].toLowerCase() == 'ж' || char[i].toLowerCase() == 'ш')
+                && char[i + 1].toLowerCase() == 'у') {
                 if (char[i + 1].isUpperCase()) char[i + 1] = 'Ю'
                 else char[i + 1] = 'ю'
             }
