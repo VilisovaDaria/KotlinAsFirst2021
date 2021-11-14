@@ -376,8 +376,8 @@ fun dozen(x: Int): String {
     )
     if (digitNumber(x) == 2) {
         if (x % 10 == 0 && x / 10 >= 1) return dozensNew[x / 10 - 1]
-        if (x % 10 != 0 && x / 10 > 1) return "${dozensNew[x / 10 - 1]} ${unit(x % 10)}"
-        else return dozens[x % 10 - 1]
+        return if (x % 10 != 0 && x / 10 > 1) "${dozensNew[x / 10 - 1]} ${unit(x % 10)}"
+        else dozens[x % 10 - 1]
     }
     return unit(x % 10)
 }
@@ -388,8 +388,8 @@ fun hundread(x: Int): String {
         "шестьсот", "семьсот", "восемьсот", "девятьсот"
     )
     if (digitNumber(x) == 3 && x % 100 == 0) return hundreads[x / 100 - 1]
-    if (digitNumber(x) == 3) return "${hundreads[x / 100 - 1]} ${dozen(x % 100)}"
-    else return dozen(x % 100)
+    return if (digitNumber(x) == 3) "${hundreads[x / 100 - 1]} ${dozen(x % 100)}"
+    else dozen(x % 100)
 }
 
 fun thousands(x: Int): String {
@@ -399,7 +399,12 @@ fun thousands(x: Int): String {
     )
     val f = arrayListOf<String>("тысяч", "тысяча", "тысячи")
     if (digitNumber(x) == 4) {
-        if (x / 1000 == 1) return "${unit[0]} ${f[1]} ${hundread(x % 1000)}"
+        if (x / 1000 == 1 && x % 1000 > 0) return "${unit[0]} ${f[1]} ${hundread(x % 1000)}"
+        if (x / 1000 == 1 && x % 1000 == 0) return "${unit[0]} ${f[1]}"
+        if (x / 1000 > 4 && x % 1000 == 0) return "${unit[x / 1000 - 1]} ${f[0]}"
+        if ((x / 1000 == 2 || x / 1000 == 3 || x / 1000 == 4)
+            && x % 1000 == 0
+        ) return "${unit[x / 1000 - 1]} ${f[2]}"
         return if (x / 1000 == 2 || x / 1000 == 3 || x / 1000 == 4)
             "${unit[x / 1000 - 1]} ${f[2]} ${hundread(x % 1000)}"
         else "${unit[x / 1000 - 1]} ${f[0]} ${hundread(x % 1000)}"
@@ -419,7 +424,9 @@ fun tensOf(x: Int): String {
     )
     val f = arrayListOf<String>("тысяч")
     if (digitNumber(x) == 5) {
-        return if (x / 10000 == 1) "${dozens[x / 1000 % 10]} ${f[0]} ${hundread(x % 1000)}"
+        if (x / 10000 == 1 && x % 1000 > 0) return "${dozens[x / 1000 % 10]} ${f[0]} ${hundread(x % 1000)}"
+        if (x / 10000 == 1 && x % 1000 == 0) return "${dozens[x / 1000 % 10]} ${f[0]}"
+        if (x / 1000 >= 1 && x % 1000 == 0) return "${dozens[x / 1000 % 10]} ${f[0]}"
         else "${doz[x / 10000 - 2]} ${thousands(x % 10000)}"
     }
     return thousands(x % 10000)
