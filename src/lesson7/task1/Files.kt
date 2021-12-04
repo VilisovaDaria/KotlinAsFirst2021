@@ -578,8 +578,14 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         writer.write(" ".repeat(digitNumber(b) + i - digitNumber(d[k])) + "-${d[k]}")
         writer.newLine()
 
+        if (digitNumber(d[k])== digitNumber(p[k]) || digitNumber(p[k])- digitNumber(d[k])<2) {
         writer.write(" ".repeat(digitNumber(b) + i - digitNumber(d[k])) + "-".repeat(digitNumber(d[k])+1))
-        writer.newLine()
+        writer.newLine()}
+
+        if (digitNumber(p[k])- digitNumber(d[k])>1) {
+            writer.write(" ".repeat(digitNumber(b) + i - digitNumber(p[k])+1) + "-".repeat(digitNumber(p[k])))
+            writer.newLine()}
+
         i +=1
         k -= 1
         println ("$i $k")
