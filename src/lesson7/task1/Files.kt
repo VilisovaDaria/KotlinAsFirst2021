@@ -517,7 +517,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     val remainder = lhv - rhv * o
     val a = o / 10.toDouble().pow(digitNumber(o) - 1).toInt() * rhv
     val b = lhv / 10.toDouble().pow(digitNumber(lhv) - digitNumber(a)).toInt()
-    val numbers = lhv - b * 10.toDouble().pow(digitNumber(lhv) - digitNumber(b)).toInt()
+    var numbers = digitNumber(lhv - b * 10.toDouble().pow(digitNumber(lhv) - digitNumber(b)).toInt())
 
 
     if (digitNumber(lhv) == digitNumber(a) || (digitNumber(lhv) > digitNumber(a) && lhv - a < rhv)) {
@@ -583,7 +583,11 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
 
         var i = 1
         var k = p.size - 1
-        while (i <= digitNumber(numbers) && k >= 0) {
+        if (digitNumber(b) + digitNumber(numbers) < digitNumber(lhv)) {
+            numbers += (digitNumber(lhv) - digitNumber(numbers) - digitNumber(b))
+        }
+
+        while (i <= numbers && k >= 0) {
 
             if (digitNumber(p[k]) > 1) {
                 writer.write(" ".repeat(digitNumber(b) + i - digitNumber(p[k])) + " ${p[k]}")
@@ -615,6 +619,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
 
             i += 1
             k -= 1
+            println("$i $k")
         }
         writer.write(" ".repeat(digitNumber(lhv) - digitNumber(remainder) + 1) + "$remainder")
         writer.close()
