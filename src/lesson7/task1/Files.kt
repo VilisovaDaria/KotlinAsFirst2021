@@ -540,7 +540,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
 
 
     if (digitNumber (lhv) == digitNumber (a) || (digitNumber (lhv) > digitNumber (a) && lhv - a < rhv)) {
-        writer.write(" ".repeat(digitNumber(a)) + "${lhv - rhv * o}")
+        writer.write(" ".repeat(digitNumber(lhv)- digitNumber(b-a)) + " ${ostat}")
         writer.close()
     } else
      {
