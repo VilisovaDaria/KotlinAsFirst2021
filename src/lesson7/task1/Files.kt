@@ -521,30 +521,67 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     val b = lhv / 10.toDouble().pow(digitNumber(lhv) - digitNumber(a)).toInt()
     var number = lhv - b * 10.toDouble().pow(digitNumber(lhv) - digitNumber(b)).toInt()
 
-    if (digitNumber(b) > digitNumber(a)) {
-        writer.write("$lhv | $rhv")
-        writer.newLine()
-        writer.write("-$a " + " ".repeat((digitNumber(lhv) - digitNumber(a)) + 1) + "$o")
-        writer.newLine()
-    }
-    if (digitNumber(b) == digitNumber(a)) {
-        writer.write(" $lhv | $rhv")
-        writer.newLine()
-        writer.write("-$a " + " ".repeat((digitNumber(lhv) - digitNumber(a)) + 2) + "$o")
-        writer.newLine()
-    }
 
 
-    writer.write("-".repeat(digitNumber(a) + 1))
-    writer.newLine()
+
+println("${b}")
 
 
     if (digitNumber (lhv) == digitNumber (a) || (digitNumber (lhv) > digitNumber (a) && lhv - a < rhv)) {
-        writer.write(" ".repeat(digitNumber(lhv)- digitNumber(b-a)) + " ${ostat}")
-        writer.close()
-    } else
-     {
 
+
+        if (digitNumber(lhv) > digitNumber(a)) {
+            writer.write("$lhv | $rhv")
+            writer.newLine()
+            writer.write(" ".repeat(digitNumber(lhv)- digitNumber(a)-1)+"-$a" + " ".repeat(3) + "$o")
+            writer.newLine()
+
+            writer.write("-".repeat(digitNumber(lhv)))
+            writer.newLine()
+
+            writer.write(" ".repeat(digitNumber(lhv)- digitNumber(ostat)) + "${ostat}")
+            writer.close()
+
+        }
+        if (digitNumber(lhv) == digitNumber(a)) {
+            writer.write(" $lhv | $rhv")
+            writer.newLine()
+            writer.write("-$a " + " ".repeat((digitNumber(lhv) - digitNumber(a)) + 2) + "$o")
+            writer.newLine()
+
+            writer.write("-".repeat(digitNumber(lhv) + 1))
+            writer.newLine()
+
+            writer.write(" ".repeat(digitNumber(lhv)- digitNumber(ostat)) + " ${ostat}")
+            writer.close()
+
+        }
+
+
+
+    }
+
+
+
+
+
+    else
+     {
+         writer.write(" $lhv | $rhv")
+         writer.newLine()
+         if (digitNumber(b) > digitNumber(a)) {
+
+             writer.write("-$a " + " ".repeat((digitNumber(lhv) - digitNumber(a)) + 1) + "$o")
+             writer.newLine()
+         }
+         if (digitNumber(b) == digitNumber(a)) {
+
+             writer.write("-$a " + " ".repeat((digitNumber(lhv) - digitNumber(a)) + 2) + "$o")
+             writer.newLine()
+         }
+
+         writer.write("-".repeat(digitNumber(a) + 1))
+         writer.newLine()
 
     val d = mutableListOf<Int>()
     val p = mutableListOf<Int>()
