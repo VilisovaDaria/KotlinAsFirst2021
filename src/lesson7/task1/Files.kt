@@ -512,37 +512,32 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  *
  */
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
-
-
     val writer = File(outputName).bufferedWriter()
     val o = lhv / rhv
-    val ostat = lhv - rhv * o
+    val remainder = lhv - rhv * o
     val a = o / 10.toDouble().pow(digitNumber(o) - 1).toInt() * rhv
     val b = lhv / 10.toDouble().pow(digitNumber(lhv) - digitNumber(a)).toInt()
-    var number = lhv - b * 10.toDouble().pow(digitNumber(lhv) - digitNumber(b)).toInt()
+    val numbers = lhv - b * 10.toDouble().pow(digitNumber(lhv) - digitNumber(b)).toInt()
 
 
-
-
-println("${b}")
-
-
-    if (digitNumber (lhv) == digitNumber (a) || (digitNumber (lhv) > digitNumber (a) && lhv - a < rhv)) {
-
+    if (digitNumber(lhv) == digitNumber(a) || (digitNumber(lhv) > digitNumber(a) && lhv - a < rhv)) {
 
         if (digitNumber(lhv) > digitNumber(a)) {
             writer.write("$lhv | $rhv")
             writer.newLine()
-            writer.write(" ".repeat(digitNumber(lhv)- digitNumber(a)-1)+"-$a" + " ".repeat(3) + "$o")
+            writer.write(
+                " ".repeat(digitNumber(lhv) - digitNumber(a) - 1) + "-$a"
+                        + " ".repeat(3) + "$o"
+            )
             writer.newLine()
 
             writer.write("-".repeat(digitNumber(lhv)))
             writer.newLine()
 
-            writer.write(" ".repeat(digitNumber(lhv)- digitNumber(ostat)) + "${ostat}")
+            writer.write(" ".repeat(digitNumber(lhv) - digitNumber(remainder)) + "$remainder")
             writer.close()
-
         }
+
         if (digitNumber(lhv) == digitNumber(a)) {
             writer.write(" $lhv | $rhv")
             writer.newLine()
@@ -552,82 +547,76 @@ println("${b}")
             writer.write("-".repeat(digitNumber(lhv) + 1))
             writer.newLine()
 
-            writer.write(" ".repeat(digitNumber(lhv)- digitNumber(ostat)) + " ${ostat}")
+            writer.write(" ".repeat(digitNumber(lhv) - digitNumber(remainder)) + " $remainder")
             writer.close()
-
         }
+    } else {
 
-
-
-    }
-
-
-
-
-
-    else
-     {
-         writer.write(" $lhv | $rhv")
-         writer.newLine()
-         if (digitNumber(b) > digitNumber(a)) {
-
-             writer.write("-$a " + " ".repeat((digitNumber(lhv) - digitNumber(a)) + 1) + "$o")
-             writer.newLine()
-         }
-         if (digitNumber(b) == digitNumber(a)) {
-
-             writer.write("-$a " + " ".repeat((digitNumber(lhv) - digitNumber(a)) + 2) + "$o")
-             writer.newLine()
-         }
-
-         writer.write("-".repeat(digitNumber(a) + 1))
-         writer.newLine()
-
-    val d = mutableListOf<Int>()
-    val p = mutableListOf<Int>()
-    for (i in 0 until (digitNumber(o)-1)) {
-        val c = o / 10.toDouble().pow(i).toInt() % 10
-        val a1 = c * rhv
-        d.add(a1)
-    }
-    val f = d[0] + ostat
-    p.add(f)
-    for (t in 0 until d.size-1) {
-        p.add(d[t+1] + p[t] / 10)
-    }
-    println("${p} ${d}")
-
-
-    var i = 1
-    var k = p.size -1
-    while (i <= digitNumber(number) && k>=0) {
-
-        if (digitNumber(p[k])>1) {
-                writer.write(" ".repeat(digitNumber(b)+i- digitNumber(p[k])) + " ${p[k]}")
+        writer.write(" $lhv | $rhv")
         writer.newLine()
-        }
-        if (digitNumber(p[k])==1){
-            writer.write(" ".repeat(digitNumber(b)+i- digitNumber(p[k])) + "0${p[k]}")
+
+        if (digitNumber(b) > digitNumber(a)) {
+            writer.write("-$a " + " ".repeat((digitNumber(lhv) - digitNumber(a)) + 1) + "$o")
             writer.newLine()
         }
 
+        if (digitNumber(b) == digitNumber(a)) {
+            writer.write("-$a " + " ".repeat((digitNumber(lhv) - digitNumber(a)) + 2) + "$o")
+            writer.newLine()
+        }
 
-        writer.write(" ".repeat(digitNumber(b) + i - digitNumber(d[k])) + "-${d[k]}")
+        writer.write("-".repeat(digitNumber(a) + 1))
         writer.newLine()
 
-        if (digitNumber(d[k])== digitNumber(p[k]) || digitNumber(p[k])- digitNumber(d[k])<2) {
-        writer.write(" ".repeat(digitNumber(b) + i - digitNumber(d[k])) + "-".repeat(digitNumber(d[k])+1))
-        writer.newLine()}
+        val d = mutableListOf<Int>()
+        val p = mutableListOf<Int>()
+        for (i in 0 until (digitNumber(o) - 1)) {
+            val c = o / 10.toDouble().pow(i).toInt() % 10
+            val a1 = c * rhv
+            d.add(a1)
+        }
+        val f = d[0] + remainder
+        p.add(f)
+        for (t in 0 until d.size - 1) {
+            p.add(d[t + 1] + p[t] / 10)
+        }
 
-        if (digitNumber(p[k])- digitNumber(d[k])>1) {
-            writer.write(" ".repeat(digitNumber(b) + i - digitNumber(p[k])+1) + "-".repeat(digitNumber(p[k])))
-            writer.newLine()}
+        var i = 1
+        var k = p.size - 1
+        while (i <= digitNumber(numbers) && k >= 0) {
 
-        i +=1
-        k -= 1
-        println ("$i $k")
+            if (digitNumber(p[k]) > 1) {
+                writer.write(" ".repeat(digitNumber(b) + i - digitNumber(p[k])) + " ${p[k]}")
+                writer.newLine()
+            }
+            if (digitNumber(p[k]) == 1) {
+                writer.write(" ".repeat(digitNumber(b) + i - digitNumber(p[k])) + "0${p[k]}")
+                writer.newLine()
+            }
+
+            writer.write(" ".repeat(digitNumber(b) + i - digitNumber(d[k])) + "-${d[k]}")
+            writer.newLine()
+
+            if (digitNumber(d[k]) == digitNumber(p[k]) || digitNumber(p[k]) - digitNumber(d[k]) < 2) {
+                writer.write(
+                    " ".repeat(digitNumber(b) + i - digitNumber(d[k])) +
+                            "-".repeat(digitNumber(d[k]) + 1)
+                )
+                writer.newLine()
+            }
+
+            if (digitNumber(p[k]) - digitNumber(d[k]) > 1) {
+                writer.write(
+                    " ".repeat(digitNumber(b) + i - digitNumber(p[k]) + 1)
+                            + "-".repeat(digitNumber(p[k]))
+                )
+                writer.newLine()
+            }
+
+            i += 1
+            k -= 1
+        }
+        writer.write(" ".repeat(digitNumber(lhv) - digitNumber(remainder) + 1) + "$remainder")
+        writer.close()
     }
-    writer.write(" ".repeat(digitNumber(lhv) - digitNumber(ostat) + 1)+"$ostat")
-    writer.close()
-}
 }
