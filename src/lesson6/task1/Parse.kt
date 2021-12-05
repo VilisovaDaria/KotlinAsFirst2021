@@ -90,11 +90,13 @@ fun dateStrToDigit(str: String): String {
     try {
         val a = strNew[0].toInt()
         return if (a <= daysInMonth(month(strNew[1]).toInt(), strNew[2].toInt())) {
-            data = if (digitNumber(a) == 1) {
+            data = twoDigitStr(a)
+            /*data = if (digitNumber(a) == 1) {
                 "0$a"
             } else {
                 strNew[0]
-            }
+            }*/
+            println(strNew[0])
             month = month(strNew[1])
             result = "$data.${month}.${strNew[2]}"
             result
