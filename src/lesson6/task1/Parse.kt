@@ -107,7 +107,7 @@ fun dateStrToDigit(str: String): String {
 
 fun month(x: String): String {
     var a = ""
-    val month: Map<String, String> = mapOf(
+    val month = mapOf(
         "января" to "1", "февраля" to "2",
         "марта" to "3", "апреля" to "4",
         "мая" to "5", "июня" to "6",
@@ -121,8 +121,7 @@ fun month(x: String): String {
         }
     }
     val d = a.toInt()
-    return if (digitNumber(d) == 1) "0$a"
-    else a
+    return twoDigitStr(a.toInt())
 }
 
 /**
