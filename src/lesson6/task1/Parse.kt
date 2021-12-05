@@ -116,7 +116,6 @@ fun month(x: String): String {
         "ноября" to "11", "декабря" to "12"
     )
     a = month[x].toString()
-    val d = a.toInt()
     return twoDigitStr(a.toInt())
 }
 
