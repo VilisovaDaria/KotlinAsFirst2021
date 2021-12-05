@@ -115,11 +115,7 @@ fun month(x: String): String {
         "сентября" to "9", "октября" to "10",
         "ноября" to "11", "декабря" to "12"
     )
-    //for ((name, number) in month) {
-        //if (x == name) {
-            a = month[x].toString()
-        //}
-    //}
+    a = month[x].toString()
     val d = a.toInt()
     return twoDigitStr(a.toInt())
 }
