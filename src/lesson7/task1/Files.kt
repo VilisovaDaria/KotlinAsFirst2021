@@ -445,8 +445,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlLists(inputName: String, outputName: String) {
-    val writer = File(outputName).bufferedWriter()
-
+    TODO()
 }
 
 /**
