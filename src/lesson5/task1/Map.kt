@@ -2,6 +2,7 @@
 
 package lesson5.task1
 
+import kotlinx.html.P
 import ru.spbstu.ktuples.Variant
 import ru.spbstu.wheels.PositiveInfinity
 import ru.spbstu.wheels.sorted
@@ -347,6 +348,7 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     var n = capacity
     val a = mutableMapOf<String, Pair<Int, Int>>()
     val a1 = mutableListOf<String>()
+    val a2 = mutableMapOf<Int, Int>()
     for ((c, b) in treasures) {
         if (treasures[c]!!.first <= n) {
             val d = treasures[c]!!.first.toInt()
@@ -354,17 +356,28 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
 
         }
     }
-    val s = a.toList().sortedByDescending { it.second.second }
-    for ((a, b) in s) {
+    val g = a.toList().sortedByDescending { it.second.second }.toMutableList()
+    var i= 0
+    var p = a.size
+    while (i < p -1) {
+        if (g[i].second.second == g[i + 1].second.second && g[i].second.first != g[i + 1].second.first) {
+            val f = maxOf(g[i].second.first, g[i + 1].second.first)
+            if (g[i].second.first == f) g.remove(g[i])
+            p -= 1
+        }
+        i += 1
+    }
+    //прописать, что если цена одинакова, то берём меньший по весу
+    //если
+    for ((a, b) in g) {
         if (b.first <= n) {
             a1.add(a)
             n -= b.first
         }
-        println("$s $b ${b.second}")
+
     }
 
-            println("$n")
 
 
-        return a1.toSet()
-    }
+    return a1.toSet()
+}
