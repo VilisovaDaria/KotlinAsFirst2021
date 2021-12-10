@@ -4,6 +4,7 @@ package lesson5.task1
 
 import ru.spbstu.ktuples.Variant
 import ru.spbstu.wheels.PositiveInfinity
+import ru.spbstu.wheels.sorted
 import kotlin.math.*
 
 // Урок 5: ассоциативные массивы и множества
@@ -335,10 +336,35 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *   bagPacking(
  *     mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)),
  *     850
+ *
  *   ) -> setOf("Кубок")
  *   bagPacking(
  *     mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)),
  *     450
  *   ) -> emptySet()
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+    var n = capacity
+    val a = mutableMapOf<String, Pair<Int, Int>>()
+    val a1 = mutableListOf<String>()
+    for ((c, b) in treasures) {
+        if (treasures[c]!!.first < n) {
+            val d = treasures[c]!!.first.toInt()
+            a.put(c, d to treasures[c]!!.second)
+
+        }
+    }
+    val s = a.toList().sortedByDescending { it.second.second }
+    for ((a, b) in s) {
+        if (b.first < n) {
+            a1.add(a)
+            n -= b.first
+        }
+        println("$a $b ${b.second}")
+    }
+
+            println("$n")
+
+
+        return a1.toSet()
+    }
