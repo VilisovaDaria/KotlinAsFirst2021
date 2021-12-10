@@ -99,14 +99,13 @@ fun dateStrToDigit(str: String): String {
 
     } catch (e: IndexOutOfBoundsException) {
         ""
-    } catch (e: Exception) {
+    } catch (e: NumberFormatException) {
         ""
     }
 }
 
 
 fun month(x: String): String {
-    var a = ""
     val month = mapOf(
         "января" to "1", "февраля" to "2",
         "марта" to "3", "апреля" to "4",
@@ -115,7 +114,7 @@ fun month(x: String): String {
         "сентября" to "9", "октября" to "10",
         "ноября" to "11", "декабря" to "12"
     )
-    a = month[x].toString()
+    val a = month[x].toString()
     return twoDigitStr(a.toInt())
 }
 
