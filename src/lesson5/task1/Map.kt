@@ -346,9 +346,13 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  */
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
     var n = capacity
+    var n1 = capacity
+    var price = 0
     val a = mutableMapOf<String, Pair<Int, Int>>()
     val a1 = mutableListOf<String>()
-    val a2 = mutableMapOf<Int, Int>()
+    val a2 = mutableListOf<String>()
+    var a3 = 0
+    val a4 = mutableListOf<Int>()
     for ((c, b) in treasures) {
         if (treasures[c]!!.first <= n) {
             val d = treasures[c]!!.first.toInt()
@@ -357,13 +361,47 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
         }
     }
     var p = a.size
+    val g1 = a.toList().sortedBy { it.second.first }.toMutableList()
+    for ((a, b) in g1) {
+        if (b.first <= n1) {
+            a2.add(a)
+            a3 += b.second
+            n1 -= b.first
+        }
+    }
+
+
     val g = a.toList().sortedByDescending { it.second.second }.toMutableList()
     var i= 0
+
+    //поместим с самой большой стоимостью
+    for ((a, b) in g) {
+        if (b.first <= n) {
+            a1.add(a)
+            price += b.second
+            n -= b.first
+        }
+    }
+    if (a3 < price) return a1.toSet()
+    else return a2.toSet()
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+
     while (i < p) {
         if (g[i].second.first > n) {
             g.remove(g[i])
             p -= 1
-
         }
         i += 1
     }
@@ -377,18 +415,21 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
         }
         i += 1
     }
+
+    while (i < p-2) {
+        if (g[i].second.second + g[i + 1].second.second > g[i].second.second + g[i + 2].second.second) {
+            val f = maxOf(g[i].second.first, g[i + 1].second.first)
+            if (g[i].second.first == f) g.remove(g[i])
+            p -= 1
+        }
+        i += 1
+    }
     println("$g")
 
-    for ((a, b) in g) {
-        if (b.first <= n) {
-            a1.add(a)
-            n -= b.first
-        }
-        println("${b.first} $n")
-    }
+
     println("$a1")
 
 
+*/
 
-    return a1.toSet()
 }
