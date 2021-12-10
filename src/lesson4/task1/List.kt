@@ -273,68 +273,32 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    var a = ""
-    var nNew = n
+    val result = buildString {
+        val numberFirst = n / 100 % 10
+        val numberSecond = n / 10 % 10
+        val numberThird = n % 10
 
-    while (nNew / 1000 > 0) {
-        a += "M"
-        nNew -= 1000
+        append("M".repeat(n / 1000))
+        when (numberFirst) {
+            in 5..8 -> append("D" + "C".repeat(numberFirst - 5))
+            in 1..3 -> append("C".repeat(numberFirst))
+            9 -> append("CM")
+            4 -> append("CD")
+        }
+        when (numberSecond) {
+            in 5..8 -> append("L" + "X".repeat(numberSecond - 5))
+            in 1..3 -> append("X".repeat(numberSecond))
+            9 -> append("XC")
+            4 -> append("XL")
+        }
+        when (numberThird) {
+            in 5..8 -> append("V" + "I".repeat(numberThird - 5))
+            in 1..3 -> append("I".repeat(numberThird))
+            9 -> append("IX")
+            4 -> append("IV")
+        }
     }
-
-    while (nNew / 100 > 0) {
-        for (i in 5..8) {
-            if (nNew / 100 == i) {
-                a += "D" + "C".repeat(nNew / 100 - 5)
-            }
-        }
-        for (i in 1..3) {
-            if (nNew / 100 == i) {
-                a += "C".repeat(nNew / 100)
-            }
-        }
-        when {
-            nNew / 100 == 9 -> a += "CM"
-            nNew / 100 == 4 -> a += "CD"
-        }
-        nNew %= 100
-    }
-
-    while (nNew / 10 > 0) {
-        for (i in 5..8) {
-            if (nNew / 10 == i) {
-                a += "L" + "X".repeat(nNew / 10 - 5)
-            }
-        }
-        for (i in 1..3) {
-            if (nNew / 10 == i) {
-                a += "X".repeat(nNew / 10)
-            }
-        }
-        when {
-            nNew / 10 == 9 -> a += "XC"
-            nNew / 10 == 4 -> a += "XL"
-        }
-        nNew %= 10
-    }
-
-    while (nNew % 10 > 0) {
-        for (i in 5..8) {
-            if (nNew % 10 == i) {
-                a += "V" + "I".repeat(nNew % 10 - 5)
-            }
-        }
-        for (i in 1..3) {
-            if (nNew % 10 == i) {
-                a += "I".repeat(nNew % 10)
-            }
-        }
-        when {
-            nNew % 10 == 9 -> a += "IX"
-            nNew % 10 == 4 -> a += "IV"
-        }
-        nNew -= nNew
-    }
-    return a
+return result
 }
 
 /**
