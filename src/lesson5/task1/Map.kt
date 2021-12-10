@@ -356,23 +356,25 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
 
         }
     }
-    val g = a.toList().sortedByDescending { it.second.second }.toMutableList()
-    var i= 0
     var p = a.size
-    while (i < p -1) {
-        if (g[i].second.second == g[i + 1].second.second && g[i].second.first != g[i + 1].second.first) {
-            val f = maxOf(g[i].second.first, g[i + 1].second.first)
-            if (g[i].second.first == f) g.remove(g[i])
-            p -= 1
-        }
-        i += 1
-    }
+    val g = a.toList().sortedByDescending { it.second.second }.toMutableList()
+    /**/
     //прописать, что если цена одинакова, то берём меньший по весу
     //если
     for ((a, b) in g) {
         if (b.first <= n) {
             a1.add(a)
             n -= b.first
+        } else {
+            var i= 0
+            while (i < p -1) {
+                if (g[i].second.second == g[i + 1].second.second && g[i].second.first != g[i + 1].second.first) {
+                    val f = maxOf(g[i].second.first, g[i + 1].second.first)
+                    if (g[i].second.first == f) g.remove(g[i])
+                    p -= 1
+                }
+                i += 1
+            }
         }
 
     }
