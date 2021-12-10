@@ -68,9 +68,7 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
 fun deleteMarked(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     for (line in File(inputName).readLines()) {
-        if (line.isNotEmpty() && line[0] == '_') {
-            line.replace(line, "")
-        } else {
+        if (line.isEmpty() || line[0] != '_') {
             writer.write(line)
             writer.newLine()
         }
@@ -373,6 +371,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
  * <ul>
  *     <li>Раз</li>
  *     <li>Два</li>
+ *
  *     <li>Три</li>
  * </ul>
  *
@@ -400,7 +399,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
 ///////////////////////////////конец файла//////////////////////////////////////////////////////////////////////////////
  *
  *
- * Соответствующий выходной файл:
+ * Соответствуютщий выходной файл:
 ///////////////////////////////начало файла/////////////////////////////////////////////////////////////////////////////
 <html>
 <body>
@@ -446,7 +445,8 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlLists(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+
 }
 
 /**
