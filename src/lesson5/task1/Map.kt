@@ -348,7 +348,7 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     val a = mutableMapOf<String, Pair<Int, Int>>()
     val a1 = mutableListOf<String>()
     for ((c, b) in treasures) {
-        if (treasures[c]!!.first < n) {
+        if (treasures[c]!!.first <= n) {
             val d = treasures[c]!!.first.toInt()
             a.put(c, d to treasures[c]!!.second)
 
@@ -356,11 +356,11 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     }
     val s = a.toList().sortedByDescending { it.second.second }
     for ((a, b) in s) {
-        if (b.first < n) {
+        if (b.first <= n) {
             a1.add(a)
             n -= b.first
         }
-        println("$a $b ${b.second}")
+        println("$s $b ${b.second}")
     }
 
             println("$n")
