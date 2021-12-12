@@ -345,30 +345,37 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *   ) -> emptySet()
  */
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
-    val result = mutableSetOf<String>()
-    val listOfMass = mutableListOf<Int>()
-    val listOfPrices = mutableListOf<Int>()
-    val listOfTreasures = mutableListOf<String>()
-    val prices = Array(treasures.size + 1) { Array(capacity + 1) { 0 } }
-    for ((key, value) in treasures) {
-        listOfPrices.add(value.second)
-        listOfMass.add(value.first)
-        listOfTreasures.add(key)
+    var countThings = treasures.size
+    val weight = mutableListOf<Int>()
+    val costThing = mutableListOf<Int>()
+    val nameTreasures = mutableListOf<String>()
+    val prices = Array(countThings + 1) { Array(capacity + 1) { 0 } }
+
+    for ((name, parameters) in treasures) {
+        costThing.add(treasures[name]!!.second)
+        weight.add(treasures[name]!!.first)
+        nameTreasures.add(name)
     }
-    for (i in 1..treasures.size)
-        for (j in 0..capacity)
-            if (j >= listOfMass[i - 1])
-                prices[i][j] = max(prices[i - 1][j], prices[i - 1][j - listOfMass[i - 1]] + listOfPrices[i - 1])
-            else
-                prices[i][j] = prices[i - 1][j]
-    var temp = capacity
-    var i = treasures.size
-    while (i > 0) {
-        if (prices[i][temp] != prices[i - 1][temp]) {
-            result.add(listOfTreasures[i - 1])
-            temp -= listOfMass[i - 1]
+
+    for (i in 1..countThings) {
+        for (k in 0..capacity) {
+            if (k >= weight[i - 1]) {
+                prices[i][k] = max(prices[i - 1][k], prices[i - 1][k - weight[i - 1]] + costThing[i - 1])
+            } else {
+                prices[i][k] = prices[i - 1][k]
+            }
         }
-        i--
+    }
+
+    var backpackWeight = capacity
+    val result = mutableSetOf<String>()
+
+    while (countThings > 0) {
+        if (prices[countThings][backpackWeight] != prices[countThings - 1][backpackWeight]) {
+            result.add(nameTreasures[countThings - 1])
+            backpackWeight -= weight[countThings - 1]
+        }
+        countThings -= 1
     }
     return result
 }
