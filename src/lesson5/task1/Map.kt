@@ -345,91 +345,30 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *   ) -> emptySet()
  */
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
-    var n = capacity
-    var n1 = capacity
-    var price = 0
-    val a = mutableMapOf<String, Pair<Int, Int>>()
-    val a1 = mutableListOf<String>()
-    val a2 = mutableListOf<String>()
-    var a3 = 0
-    val a4 = mutableListOf<Int>()
-    for ((c, b) in treasures) {
-        if (treasures[c]!!.first <= n) {
-            val d = treasures[c]!!.first.toInt()
-            a.put(c, d to treasures[c]!!.second)
-
-        }
+    val result = mutableSetOf<String>()
+    val listOfMass = mutableListOf<Int>()
+    val listOfPrices = mutableListOf<Int>()
+    val listOfTreasures = mutableListOf<String>()
+    val prices = Array(treasures.size + 1) { Array(capacity + 1) { 0 } }
+    for ((key, value) in treasures) {
+        listOfPrices.add(value.second)
+        listOfMass.add(value.first)
+        listOfTreasures.add(key)
     }
-    var p = a.size
-    val g1 = a.toList().sortedBy { it.second.first }.toMutableList()
-    for ((a, b) in g1) {
-        if (b.first <= n1) {
-            a2.add(a)
-            a3 += b.second
-            n1 -= b.first
+    for (i in 1..treasures.size)
+        for (j in 0..capacity)
+            if (j >= listOfMass[i - 1])
+                prices[i][j] = max(prices[i - 1][j], prices[i - 1][j - listOfMass[i - 1]] + listOfPrices[i - 1])
+            else
+                prices[i][j] = prices[i - 1][j]
+    var temp = capacity
+    var i = treasures.size
+    while (i > 0) {
+        if (prices[i][temp] != prices[i - 1][temp]) {
+            result.add(listOfTreasures[i - 1])
+            temp -= listOfMass[i - 1]
         }
+        i--
     }
-
-
-    val g = a.toList().sortedByDescending { it.second.second }.toMutableList()
-    var i= 0
-
-    //поместим с самой большой стоимостью
-    for ((a, b) in g) {
-        if (b.first <= n) {
-            a1.add(a)
-            price += b.second
-            n -= b.first
-        }
-    }
-    if (a3 < price) return a1.toSet()
-    else return a2.toSet()
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-
-    while (i < p) {
-        if (g[i].second.first > n) {
-            g.remove(g[i])
-            p -= 1
-        }
-        i += 1
-    }
-    println("$g")
-
-    while (i < p-1) {
-        if (g[i].second.second == g[i + 1].second.second && g[i].second.first != g[i + 1].second.first) {
-            val f = maxOf(g[i].second.first, g[i + 1].second.first)
-            if (g[i].second.first == f) g.remove(g[i])
-            p -= 1
-        }
-        i += 1
-    }
-
-    while (i < p-2) {
-        if (g[i].second.second + g[i + 1].second.second > g[i].second.second + g[i + 2].second.second) {
-            val f = maxOf(g[i].second.first, g[i + 1].second.first)
-            if (g[i].second.first == f) g.remove(g[i])
-            p -= 1
-        }
-        i += 1
-    }
-    println("$g")
-
-
-    println("$a1")
-
-
-*/
-
+    return result
 }
