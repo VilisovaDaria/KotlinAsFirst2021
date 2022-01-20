@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test
 import java.io.File
 
 class Tests {
-
     private fun assertFileContent(name: String, expectedContent: String) {
         val file = File(name)
         val content = file.readLines().joinToString("\n")
@@ -389,35 +388,7 @@ Basic, Ruby, Swift.
         }
 
         test(
-            19935,
-            22,
-            """
-              19935 | 22
-             -198     906
-             ----
-                13
-                -0
-                --
-                135
-               -132
-               ----
-                  3
-             """
-        )
-
-        test(
-            2,
-            20,
-            """
-              2 | 20
-             -0   0
-             --
-              2
-             """
-        )
-
-        test(
-            99999,
+            20373,
             1,
             """
               99999 | 1
@@ -438,7 +409,37 @@ Basic, Ruby, Swift.
                   0
              """
         )
-
+/*
+        test(
+            899599,
+            15,
+            """
+              899599 | 15
+             -75       59973
+             ---
+              149
+             -135
+             ----
+               145
+              -135
+              ----
+                109
+               -105
+               ----
+                  49
+                 -45
+                 ---
+                   4
+             """
+        )
+*/
         File("temp.txt").delete()
+    }
+
+    @Test
+    fun myFun() {
+        assertEquals(listOf(15 to 6, 14 to 7, 13 to 8, 12 to 9, 11 to 10), myFun("input/empty.txt"))
+        assertEquals(null, myFun("input/myFun1"))
+        assertEquals(listOf(1 to 9, 2 to 9, 3 to 9, 4 to 9, 5 to 9), myFun("input/myFun2"))
     }
 }

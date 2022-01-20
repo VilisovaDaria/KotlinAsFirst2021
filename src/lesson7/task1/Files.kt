@@ -2,10 +2,13 @@
 
 package lesson7.task1
 
+import kotlinx.html.P
 import lesson3.task1.digitNumber
-import lesson4.task1.dozen
+import org.junit.Test
 import java.io.File
+import java.lang.IllegalArgumentException
 import kotlin.math.*
+import kotlin.reflect.jvm.internal.impl.descriptors.deserialization.PlatformDependentDeclarationFilter
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -328,7 +331,8 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
  *
  * Реализовать транслитерацию текста в заданном формате разметки в формат разметки HTML.
  *
- * Во входном файле с именем inputName содержится текст, содержащий в себе набор вложенных друг в друга списков.
+ *
+ *  Во входном файле с именем inputName содержится текст, содержащий в себе набор вложенных друг в друга списков.
  * Списки бывают двух типов: нумерованные и ненумерованные.
  *
  * Каждый элемент ненумерованного списка начинается с новой строки и символа '*', каждый элемент нумерованного списка --
@@ -422,8 +426,44 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlLists(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+
+    val a = arrayListOf<String>()
+
+    for (line in File(inputName).readLines()) {
+        println("$line")
+        a.add(line)
+        //if (line.first()=='*') writer.write("<ol>")
+        //if (line[4] == '*') writer.write("<li><${line.drop(5)}></li>")
+        //if (line[4].isDigit()) writer.write("<li><${line.drop(6)}></li>")
+        //  writer.newLine()
+        //решить проблему с ещё вложенными внутри
+
+    }
+
+    if (a[0][0].isDigit()) writer.write("<html><body><p><ol>${a[0].drop(1)}")
+    else writer.write("<html><body><p><ul>${a[0].drop(1)}")
+
+    for (i in 1..a.size - 1) {
+        if (a[i][0] != ' ' && a[i + 1][0] == ' ') {
+            writer.write("<li>${a[i].drop(1)}")
+            if (a[i][4] == '*' && a[i + 1][4] == '*') writer.write("<ul><li>${a[i].drop(5)}</li>")
+            if (a[i][4] == '*' && a[i + 1][4] == ' ') writer.write("<ul><li>${a[i].drop(5)}</li>")
+            if (a[i][4].isDigit() && a[i + 1][4] == ' ') writer.write("<ul><li>${a[i].drop(5)}</li>")
+        }
+        if (a[i][0] != ' ' && a[i + 1][0] != ' ') writer.write("<li>${a[i].drop(1)}</li>")
+
+        if (a[i][4] == '*' && a[i + 1][4] != '*') writer.write("<ul><li>${a[i].drop(5)}</li></ul>")
+        if (a[i][4] == '*' && a[i + 1][4] != '*' && a[i - 1][4] == '*') writer.write("<li>${a[i].drop(5)}</li></ul>")
+        //if (a[i][4].isDigit() && a[i+1][4] == '*') writer.write("<ul><li>${a[i].drop(5)}</li>")
+    }
+
+
+    writer.write("</p></body></html>")
+    writer.close()
+
 }
+
 
 /**
  * Очень сложная (30 баллов)
@@ -600,4 +640,76 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         writer.write(" ".repeat(digitNumber(lhv) - digitNumber(remainder) + 1) + "$remainder")
         writer.close()
     }
+}
+
+
+fun myFun(inputName: String): List<Pair<Int, Int>>? {
+    val coordinates = mutableMapOf<Pair<Int, Int>, String>()
+    val coordinatesOfNull = mutableListOf<Pair<Int, Int>>()
+    val coordinatesOfX = mutableListOf<Pair<Int, Int>>()
+
+    val elementOfText = File(inputName).readText().replace("\r\n", "")
+
+    for (f in 0 until elementOfText.length - 1) {
+        if ((f + 1) % 15 == 0) {
+            coordinates[15 to (f + 1) / 15] = elementOfText[f].toString()
+        } else
+            coordinates[(f + 1) % 15 to (f) / 15 + 1] = elementOfText[f].toString()
+    }
+
+    for ((numbers, name) in coordinates) {
+        if (name == "0") {
+            coordinatesOfNull.add(numbers)
+        }
+        if (name == "X") {
+            coordinatesOfX.add(numbers)
+        }
+    }
+
+    if (check(coordinatesOfX).isNotEmpty()) return check(coordinatesOfX)
+    return check(coordinatesOfNull).ifEmpty { null }
+}
+
+
+fun check(coordinates: List<Pair<Int, Int>>): List<Pair<Int, Int>> {
+    val result = mutableSetOf<Pair<Int, Int>>()
+
+    for (i in 0 until coordinates.size - 1) {
+
+        if (coordinates[i + 1].second == coordinates[i].second &&
+            coordinates[i + 1].first - coordinates[i].first == 1 && ((i + 1) - i == 1)) {
+
+            result.add(coordinates[i].first to coordinates[i].second)
+            result.add(coordinates[i + 1].first to coordinates[i + 1].second)
+        } else if (result.size < 5) result.clear()
+
+    }
+    if (result.size < 5) result.clear()
+
+
+    for (i in 0 until coordinates.size - 1) {
+        if (coordinates[i + 1].first == coordinates[i].first &&
+            coordinates[i + 1].second - coordinates[i].second == 1) {
+
+            result.add(coordinates[i].first to coordinates[i].second)
+            result.add(coordinates[i + 1].first to coordinates[i + 1].second)
+        } else if (result.size < 5) result.clear()
+
+    }
+    if (result.size < 5) result.clear()
+
+    for (i in 0 until coordinates.size - 1) {
+        if (abs(coordinates[i + 1].second - coordinates[i].second) ==
+            abs(coordinates[i + 1].first - coordinates[i].first) &&
+            abs(coordinates[i + 1].second - coordinates[i].second) == 1
+        ) {
+            result.add(coordinates[i].first to coordinates[i].second)
+            result.add(coordinates[i + 1].first to coordinates[i + 1].second)
+        } else if (result.size < 5) result.clear()
+
+    }
+    if (result.size < 5) result.clear()
+
+    return if (result.size >= 5) result.toList().slice(0..4)
+    else result.toList()
 }
