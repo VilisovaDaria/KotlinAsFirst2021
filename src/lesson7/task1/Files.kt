@@ -644,72 +644,78 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
 
 
 fun myFun(inputName: String): List<Pair<Int, Int>>? {
-    val coordinates = mutableMapOf<Pair<Int, Int>, String>()
-    val coordinatesOfNull = mutableListOf<Pair<Int, Int>>()
-    val coordinatesOfX = mutableListOf<Pair<Int, Int>>()
+    val names = mutableListOf<String>()
+    val coordinatesOf = mutableListOf<Pair<Int, Int>>()
+    val result = mutableSetOf<Pair<Int, Int>>()
 
     val elementOfText = File(inputName).readText().replace("\r\n", "")
 
-    for (f in 0 until elementOfText.length - 1) {
+    for (f in elementOfText.indices) {
+        names.add(elementOfText[f].toString())
         if ((f + 1) % 15 == 0) {
-            coordinates[15 to (f + 1) / 15] = elementOfText[f].toString()
-        } else
-            coordinates[(f + 1) % 15 to (f) / 15 + 1] = elementOfText[f].toString()
+            coordinatesOf.add(15 to (f + 1) / 15)
+        } else coordinatesOf.add((f + 1) % 15 to (f) / 15 + 1)
     }
 
-    for ((numbers, name) in coordinates) {
-        if (name == "0") {
-            coordinatesOfNull.add(numbers)
+
+    for (k in 14..16) {
+        for (i in 0 until 15) {
+            for (dStart in i until (names.size - 5 * 15) step k) {
+                for (d in dStart until names.size step k) {
+                    if (names[d] == "0") {
+                        result.add(coordinatesOf[d])
+                        if (result.size == 5) return result.toList().slice(0..4)
+                    } else {
+                        result.clear()
+                        break
+                    }
+                }
+            }
         }
-        if (name == "X") {
-            coordinatesOfX.add(numbers)
-        }
     }
 
-    if (check(coordinatesOfX).isNotEmpty()) return check(coordinatesOfX)
-    return check(coordinatesOfNull).ifEmpty { null }
-}
 
-
-fun check(coordinates: List<Pair<Int, Int>>): List<Pair<Int, Int>> {
-    val result = mutableSetOf<Pair<Int, Int>>()
-
-    for (i in 0 until coordinates.size - 1) {
-
-        if (coordinates[i + 1].second == coordinates[i].second &&
-            coordinates[i + 1].first - coordinates[i].first == 1 && ((i + 1) - i == 1)) {
-
-            result.add(coordinates[i].first to coordinates[i].second)
-            result.add(coordinates[i + 1].first to coordinates[i + 1].second)
-        } else if (result.size < 5) result.clear()
-
-    }
-    if (result.size < 5) result.clear()
-
-
-    for (i in 0 until coordinates.size - 1) {
-        if (coordinates[i + 1].first == coordinates[i].first &&
-            coordinates[i + 1].second - coordinates[i].second == 1) {
-
-            result.add(coordinates[i].first to coordinates[i].second)
-            result.add(coordinates[i + 1].first to coordinates[i + 1].second)
-        } else if (result.size < 5) result.clear()
-
-    }
-    if (result.size < 5) result.clear()
-
-    for (i in 0 until coordinates.size - 1) {
-        if (abs(coordinates[i + 1].second - coordinates[i].second) ==
-            abs(coordinates[i + 1].first - coordinates[i].first) &&
-            abs(coordinates[i + 1].second - coordinates[i].second) == 1
+    for (i in 0 until names.size - 1) {
+        if (
+            coordinatesOf[i].second == coordinatesOf[i + 1].second &&
+            coordinatesOf[i + 1].first - coordinatesOf[i].first == 1 &&
+            names[i] == names[i + 1] && names[i] == "0"
         ) {
-            result.add(coordinates[i].first to coordinates[i].second)
-            result.add(coordinates[i + 1].first to coordinates[i + 1].second)
+            result.add(coordinatesOf[i])
+            result.add(coordinatesOf[i + 1])
         } else if (result.size < 5) result.clear()
-
+        else return result.toList().slice(0..4)
     }
-    if (result.size < 5) result.clear()
 
-    return if (result.size >= 5) result.toList().slice(0..4)
-    else result.toList()
+
+    for (k in 14..16) {
+        for (i in 0 until 15) {
+            for (dStart in i until (names.size - 5 * 15) step k) {
+                for (d in dStart until names.size step k) {
+                    if (names[d] == "X") {
+                        result.add(coordinatesOf[d])
+                        if (result.size == 5) return result.toList().slice(0..4)
+                    } else {
+                        result.clear()
+                        break
+                    }
+                }
+            }
+        }
+    }
+
+
+    for (i in 0 until names.size - 1) {
+        if (
+            coordinatesOf[i].second == coordinatesOf[i + 1].second &&
+            coordinatesOf[i + 1].first - coordinatesOf[i].first == 1 &&
+            names[i] == names[i + 1] && names[i] == "X"
+        ) {
+            result.add(coordinatesOf[i])
+            result.add(coordinatesOf[i + 1])
+        } else if (result.size < 5) result.clear()
+        else return result.toList().slice(0..4)
+    }
+
+    return null
 }

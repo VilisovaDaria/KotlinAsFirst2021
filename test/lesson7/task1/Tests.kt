@@ -438,8 +438,8 @@ Basic, Ruby, Swift.
 
     @Test
     fun myFun() {
-        assertEquals(listOf(15 to 6, 14 to 7, 13 to 8, 12 to 9, 11 to 10), myFun("input/empty.txt"))
-        assertEquals(null, myFun("input/myFun1"))
-        assertEquals(listOf(1 to 9, 2 to 9, 3 to 9, 4 to 9, 5 to 9), myFun("input/myFun2"))
+        assertEquals(listOf(5 to 9, 4 to 10, 3 to 11, 2 to 12, 1 to 13), myFun("input/empty.txt"))
+        assertEquals(listOf(15 to 6, 15 to 7, 15 to 8, 15 to 9, 15 to 10), myFun("input/myFun1"))
+        assertEquals(listOf(10 to 11, 11 to 11, 12 to 11, 13 to 11, 14 to 11), myFun("input/myFun2"))
     }
 }
