@@ -47,5 +47,19 @@ internal class ComplexTest {
     fun equals() {
         assertApproxEquals(Complex(1.0, 2.0), Complex("1+2i"), 1e-12)
         assertApproxEquals(Complex(1.0, 0.0), Complex(1.0), 1e-12)
+        assertApproxEquals(Complex(9.0, 4.0), Complex("9+4i"), 1e-12)
+    }
+
+    @Test
+    fun testToString() {
+        assertEquals("1+2i", Complex("1+2i").toString())
+        assertEquals("3-4i", Complex("3-4i").toString())
+        assertEquals("7+0i", Complex("7+0i").toString())
+        assertEquals("155-89i", Complex("155-89i").toString())
+        assertEquals("7+5i", Complex(7.0, 5.0).toString())
+        assertEquals("17-8i", Complex(17.0, -8.0).toString())
+        assertEquals("36+0i", Complex(36.0, 0.0).toString())
+        assertEquals("0+0i", Complex(0.0, 0.0).toString())
+        assertEquals("36.5+0i", Complex(36.5, 0.0).toString())
     }
 }

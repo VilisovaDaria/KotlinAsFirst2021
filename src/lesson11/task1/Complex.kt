@@ -2,6 +2,7 @@
 
 package lesson11.task1
 
+import lesson12.task1.PhoneBook
 import kotlin.math.pow
 
 /**
@@ -70,10 +71,24 @@ class Complex(val re: Double, val im: Double) {
     /**
      * Сравнение на равенство
      */
-    override fun equals(other: Any?): Boolean = TODO()
+    override fun equals(other: Any?): Boolean {
+        if (other !is Complex) return false
+        return re == other.re && im == other.im
+    }
 
     /**
      * Преобразование в строку
      */
-    override fun toString(): String = TODO()
+    override fun toString(): String {
+        fun reformatNumber(number: Double): String {
+            return if (number == number.toInt().toDouble()) number.toInt().toString()
+            else number.toString()
+        }
+
+        val reStr = reformatNumber(re)
+        val imStr = reformatNumber(im)
+
+        return if (im < 0) "${reStr}${imStr}i"
+        else "${reStr}+${imStr}i"
+    }
 }
