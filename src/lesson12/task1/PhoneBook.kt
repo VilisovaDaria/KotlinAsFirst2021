@@ -110,8 +110,7 @@ class PhoneBook {
      */
     override fun equals(other: Any?): Boolean {
         if (other !is PhoneBook) return false
-        return listOfPhoneNumbers.values == other.listOfPhoneNumbers.values &&
-                listOfPhoneNumbers.keys == other.listOfPhoneNumbers.keys
+        return listOfPhoneNumbers == other.listOfPhoneNumbers
     }
 
     override fun hashCode(): Int = listOfPhoneNumbers.hashCode()
