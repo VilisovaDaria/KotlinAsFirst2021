@@ -17,16 +17,6 @@ package lesson12.task1
  *
  * Класс должен иметь конструктор по умолчанию (без параметров).
  */
-
-fun c(name: String): String {
-    if (name.matches(Regex("[0-9+*\\-#]+"))) return name
-    else throw IllegalArgumentException()
-}
-
-fun main() {
-    println(c("+561-+5623498"))
-}
-
 class PhoneBook {
 
 
@@ -38,7 +28,7 @@ class PhoneBook {
         if (!name.matches(Regex("[0-9+*\\-#]+"))) throw IllegalArgumentException()
     }
 
-    private var list = mutableMapOf<String, MutableSet<String>>()
+    private var listOfPhoneNumbers = mutableMapOf<String, MutableSet<String>>()
 
     /**
      * Добавить человека.
@@ -48,8 +38,8 @@ class PhoneBook {
      */
     fun addHuman(name: String): Boolean {
         checkName(name)
-        return if (name !in list) {
-            list[name] = mutableSetOf()
+        return if (name !in listOfPhoneNumbers) {
+            listOfPhoneNumbers[name] = mutableSetOf()
             true
         } else false
     }
@@ -62,7 +52,7 @@ class PhoneBook {
      */
     fun removeHuman(name: String): Boolean {
         return if (!addHuman(name)) {
-            list.remove(name)
+            listOfPhoneNumbers.remove(name)
             true
         } else false
     }
@@ -78,9 +68,9 @@ class PhoneBook {
         checkName(name)
         checkNumber(phone)
 
-        if (!list.containsKey(name)) return false
-        val a = list[name]!!
-        for (phones in list.values) {
+        if (!listOfPhoneNumbers.containsKey(name)) return false
+        val a = listOfPhoneNumbers[name]!!
+        for (phones in listOfPhoneNumbers.values) {
             if (phones.contains(phone)) return false
         }
 
@@ -94,20 +84,20 @@ class PhoneBook {
      * и false, если человек с таким именем отсутствовал в телефонной книге
      * либо у него не было такого номера телефона.
      */
-    fun removePhone(name: String, phone: String): Boolean = list[name]?.remove(phone) ?: false
+    fun removePhone(name: String, phone: String): Boolean = listOfPhoneNumbers[name]?.remove(phone) ?: false
 
     /**
      * Вернуть все номера телефона заданного человека.
      * Если этого человека нет в книге, вернуть пустой список
      */
-    fun phones(name: String): Set<String> = list[name] ?: setOf()
+    fun phones(name: String): Set<String> = listOfPhoneNumbers[name] ?: setOf()
 
     /**
      * Вернуть имя человека по заданному номеру телефона.
      * Если такого номера нет в книге, вернуть null.
      */
     fun humanByPhone(phone: String): String? {
-        for ((name, phones) in list) {
+        for ((name, phones) in listOfPhoneNumbers) {
             if (phones.contains(phone)) return name
         }
         return null
@@ -120,8 +110,9 @@ class PhoneBook {
      */
     override fun equals(other: Any?): Boolean {
         if (other !is PhoneBook) return false
-        return other.list.keys == list.keys && other.list.values == list.values
+        return listOfPhoneNumbers.values == other.listOfPhoneNumbers.values &&
+                listOfPhoneNumbers.keys == other.listOfPhoneNumbers.keys
     }
 
-    override fun hashCode(): Int = list.hashCode()
+    override fun hashCode(): Int = listOfPhoneNumbers.hashCode()
 }
