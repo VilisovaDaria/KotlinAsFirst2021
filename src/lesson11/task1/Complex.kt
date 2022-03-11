@@ -10,9 +10,11 @@ import kotlin.math.pow
  */
 fun Complex(s: String): Complex {
     try {
-        val plusOrMinus = s.indexOfFirst { it == '+' || it == '-' }
-        return Complex(s.substring(0, plusOrMinus).toDouble(), s.substring(plusOrMinus, s.length - 1).toDouble())
-
+        val plusOrMinus = s.indexOfLast { it == '+' || it == '-' }
+        return Complex(
+            s.substring(0, plusOrMinus).toDouble(),
+            s.substring(plusOrMinus, s.length - 1).toDouble()
+        )
     } catch (e: Exception) {
         throw IllegalArgumentException()
     }
