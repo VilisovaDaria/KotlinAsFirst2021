@@ -9,15 +9,12 @@ import kotlin.math.pow
  * Фабричный метод для создания комплексного числа из строки вида x+yi
  */
 fun Complex(s: String): Complex {
-    try {
-        val plusOrMinus = s.indexOfLast { it == '+' || it == '-' }
-        return Complex(
-            s.substring(0, plusOrMinus).toDouble(),
-            s.substring(plusOrMinus, s.length - 1).toDouble()
-        )
-    } catch (e: Exception) {
-        throw IllegalArgumentException()
-    }
+    if (!s.matches(Regex("""[+\-]?\d+(\.\d+|)[+\-]\d+(\.\d+|)i"""))) throw IllegalArgumentException("Incorrect number")
+    val plusOrMinus = s.indexOfLast { it == '+' || it == '-' }
+    return Complex(
+        s.substring(0, plusOrMinus).toDouble(),
+        s.substring(plusOrMinus, s.length - 1).toDouble()
+    )
 }
 
 /**

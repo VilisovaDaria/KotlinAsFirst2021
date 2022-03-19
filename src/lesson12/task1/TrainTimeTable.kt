@@ -2,6 +2,9 @@
 
 package lesson12.task1
 
+import ru.spbstu.wheels.NullableMonad.filter
+import ru.spbstu.wheels.defaultCompareTo
+
 /**
  * Класс "расписание поездов".
  *
@@ -16,6 +19,9 @@ package lesson12.task1
  * В конструктор передаётся название станции отправления для данного расписания.
  */
 class TrainTimeTable(val baseStationName: String) {
+
+    private val trainInformation = mutableMapOf<String, Train>()
+
     /**
      * Добавить новый поезд.
      *
@@ -26,7 +32,12 @@ class TrainTimeTable(val baseStationName: String) {
      * @param destination конечная станция
      * @return true, если поезд успешно добавлен, false, если такой поезд уже есть
      */
-    fun addTrain(train: String, depart: Time, destination: Stop): Boolean = TODO()
+    fun addTrain(train: String, depart: Time, destination: Stop): Boolean {
+        if (train in trainInformation) return false
+
+        trainInformation[train] = Train(train, Stop(baseStationName, depart), destination)
+        return true
+    }
 
     /**
      * Удалить существующий поезд.
@@ -36,7 +47,13 @@ class TrainTimeTable(val baseStationName: String) {
      * @param train название поезда
      * @return true, если поезд успешно удалён, false, если такой поезд не существует
      */
-    fun removeTrain(train: String): Boolean = TODO()
+    fun removeTrain(train: String): Boolean {
+        return if (train in trainInformation) {
+            trainInformation.remove(train)
+            true
+        } else false
+    }
+
 
     /**
      * Добавить/изменить начальную, промежуточную или конечную остановку поезду.
@@ -56,7 +73,33 @@ class TrainTimeTable(val baseStationName: String) {
      * @param stop начальная, промежуточная или конечная станция
      * @return true, если поезду была добавлена новая остановка, false, если было изменено время остановки на старой
      */
-    fun addStop(train: String, stop: Stop): Boolean = TODO()
+    fun addStop(train: String, stop: Stop): Boolean {
+        val train = getTrain(train)
+
+        val stopIndex = train.stops.indexOfFirst { (name) -> name == stop.name }
+
+        if (stopIndex != -1) {
+            // Первая всегда первая, последняя всегда последняя
+            if (stopIndex == 0) { // Проверяем первую станцию
+                if (stop.time >= train.stops[1].time) throw IllegalArgumentException("Incorrect time")
+            } else if (stopIndex == train.stops.lastIndex) { // Проверяем последнюю станцию
+                if (stop.time <= train.stops[train.stops.lastIndex - 1].time) throw IllegalArgumentException("Incorrect time")
+            } else if (
+                (train.stops[stopIndex + 1].time <= train.stops[stopIndex].time) ||
+                (train.stops[stopIndex - 1].time >= train.stops[stopIndex].time)
+            )
+                throw IllegalArgumentException("Incorrect time")
+
+            train.stops[stopIndex] = stop
+            return false
+        }
+        val stopIndexNew = train.stops.indexOfFirst { it.time >= stop.time }
+
+        if (stopIndexNew == 0 || stopIndexNew == -1) throw IllegalArgumentException("Incorrect time")
+
+        train.stops.add(stopIndexNew, stop)
+        return true
+    }
 
     /**
      * Удалить одну из промежуточных остановок.
@@ -68,26 +111,47 @@ class TrainTimeTable(val baseStationName: String) {
      * @param stopName название промежуточной остановки
      * @return true, если удаление успешно
      */
-    fun removeStop(train: String, stopName: String): Boolean = TODO()
+
+    private fun getTrain(trainName: String): Train =
+        trainInformation[trainName] ?: throw IllegalArgumentException("Train is not exist")
+
+    fun removeStop(train: String, stopName: String): Boolean {
+        val train = getTrain(train)
+
+        val stopIndex = train.stops.indexOfFirst { (name) -> name == stopName }
+
+        if (stopIndex == 0 || stopIndex == -1 || stopIndex == train.stops.lastIndex) return false
+
+        train.stops.removeAt(stopIndex)
+        return true
+    }
 
     /**
      * Вернуть список всех поездов, упорядоченный по времени отправления с baseStationName
      */
-    fun trains(): List<Train> = TODO()
+    fun trains(): List<Train> = trainInformation.values.sortedBy { train -> train.stops.first().time }
 
     /**
      * Вернуть список всех поездов, отправляющихся не ранее currentTime
      * и имеющих остановку (начальную, промежуточную или конечную) на станции destinationName.
      * Список должен быть упорядочен по времени прибытия на станцию destinationName
      */
-    fun trains(currentTime: Time, destinationName: String): List<Train> = TODO()
+    fun trains(currentTime: Time, destinationName: String): List<Train> =
+        trainInformation.filterValues { train -> train.stops[0].time >= currentTime }
+            .filterValues { train -> train.stops.indexOfFirst { (name) -> name == destinationName } != -1 }
+            .values
+            .sortedBy { it.stops.find{ (name) -> name == destinationName }!!.time }
+
 
     /**
      * Сравнение на равенство.
      * Расписания считаются одинаковыми, если содержат одинаковый набор поездов,
      * и поезда с тем же именем останавливаются на одинаковых станциях в одинаковое время.
      */
-    override fun equals(other: Any?): Boolean = TODO()
+    override fun equals(other: Any?): Boolean {
+        if (other !is TrainTimeTable) return false
+        return trainInformation == other.trainInformation
+    }
 }
 
 /**
@@ -97,7 +161,7 @@ data class Time(val hour: Int, val minute: Int) : Comparable<Time> {
     /**
      * Сравнение времён на больше/меньше (согласно контракту compareTo)
      */
-    override fun compareTo(other: Time): Int = TODO()
+    override fun compareTo(other: Time): Int = (hour * 60 + minute) - (other.hour * 60 + other.minute)
 }
 
 /**
@@ -109,6 +173,7 @@ data class Stop(val name: String, val time: Time)
  * Поезд (имя, список остановок, упорядоченный по времени).
  * Первой идёт начальная остановка, последней конечная.
  */
-data class Train(val name: String, val stops: List<Stop>) {
-    constructor(name: String, vararg stops: Stop) : this(name, stops.asList())
+
+data class Train(val name: String, val stops: MutableList<Stop>) {
+    constructor(name: String, vararg stops: Stop) : this(name, stops.asList().toMutableList())
 }
