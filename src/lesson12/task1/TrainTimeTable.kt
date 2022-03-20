@@ -73,33 +73,37 @@ class TrainTimeTable(val baseStationName: String) {
      * @param stop начальная, промежуточная или конечная станция
      * @return true, если поезду была добавлена новая остановка, false, если было изменено время остановки на старой
      */
-    fun addStop(train: String, stop: Stop): Boolean {
-        val train = getTrain(train)
 
-        val stopIndex = train.stops.indexOfFirst { (name) -> name == stop.name }
+    fun addStop(train: String, stop: Stop): Boolean {
+        val trainName = getTrain(train)
+
+        val stopIndex = trainName.stops.indexOfFirst { (name) -> name == stop.name }
 
         if (stopIndex != -1) {
-            // Первая всегда первая, последняя всегда последняя
+
             if (stopIndex == 0) { // Проверяем первую станцию
-                if (stop.time >= train.stops[1].time) throw IllegalArgumentException("Incorrect time")
-            } else if (stopIndex == train.stops.lastIndex) { // Проверяем последнюю станцию
-                if (stop.time <= train.stops[train.stops.lastIndex - 1].time) throw IllegalArgumentException("Incorrect time")
+                if (stop.time >= trainName.stops[1].time) throw IllegalArgumentException("Incorrect time")
+            } else if (stopIndex == trainName.stops.lastIndex) { // Проверяем последнюю станцию
+                if (stop.time <= trainName.stops[trainName.stops.lastIndex - 1].time) throw IllegalArgumentException("Incorrect time")
             } else if (
-                (train.stops[stopIndex + 1].time <= train.stops[stopIndex].time) ||
-                (train.stops[stopIndex - 1].time >= train.stops[stopIndex].time)
+                (trainName.stops[stopIndex + 1].time <= trainName.stops[stopIndex].time) ||
+                (trainName.stops[stopIndex - 1].time >= trainName.stops[stopIndex].time)
             )
                 throw IllegalArgumentException("Incorrect time")
 
-            train.stops[stopIndex] = stop
+            trainName.stops[stopIndex] = stop
             return false
         }
-        val stopIndexNew = train.stops.indexOfFirst { it.time >= stop.time }
+        val stopIndexNew = trainName.stops.indexOfFirst { it.time >= stop.time }
 
         if (stopIndexNew == 0 || stopIndexNew == -1) throw IllegalArgumentException("Incorrect time")
 
-        train.stops.add(stopIndexNew, stop)
+        trainName.stops.add(stopIndexNew, stop)
         return true
     }
+
+    private fun getTrain(trainName: String): Train =
+        trainInformation[trainName] ?: throw IllegalArgumentException("Train is not exist")
 
     /**
      * Удалить одну из промежуточных остановок.
@@ -111,18 +115,14 @@ class TrainTimeTable(val baseStationName: String) {
      * @param stopName название промежуточной остановки
      * @return true, если удаление успешно
      */
-
-    private fun getTrain(trainName: String): Train =
-        trainInformation[trainName] ?: throw IllegalArgumentException("Train is not exist")
-
     fun removeStop(train: String, stopName: String): Boolean {
-        val train = getTrain(train)
+        val trainName = getTrain(train)
 
-        val stopIndex = train.stops.indexOfFirst { (name) -> name == stopName }
+        val stopIndex = trainName.stops.indexOfFirst { (name) -> name == stopName }
 
-        if (stopIndex == 0 || stopIndex == -1 || stopIndex == train.stops.lastIndex) return false
+        if (stopIndex == 0 || stopIndex == -1 || stopIndex == trainName.stops.lastIndex) return false
 
-        train.stops.removeAt(stopIndex)
+        trainName.stops.removeAt(stopIndex)
         return true
     }
 
