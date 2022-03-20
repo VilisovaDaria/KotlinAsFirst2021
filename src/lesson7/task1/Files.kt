@@ -426,42 +426,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlLists(inputName: String, outputName: String) {
-    val writer = File(outputName).bufferedWriter()
-
-    val a = arrayListOf<String>()
-
-    for (line in File(inputName).readLines()) {
-        println("$line")
-        a.add(line)
-        //if (line.first()=='*') writer.write("<ol>")
-        //if (line[4] == '*') writer.write("<li><${line.drop(5)}></li>")
-        //if (line[4].isDigit()) writer.write("<li><${line.drop(6)}></li>")
-        //  writer.newLine()
-        //решить проблему с ещё вложенными внутри
-
-    }
-
-    if (a[0][0].isDigit()) writer.write("<html><body><p><ol>${a[0].drop(1)}")
-    else writer.write("<html><body><p><ul>${a[0].drop(1)}")
-
-    for (i in 1..a.size - 1) {
-        if (a[i][0] != ' ' && a[i + 1][0] == ' ') {
-            writer.write("<li>${a[i].drop(1)}")
-            if (a[i][4] == '*' && a[i + 1][4] == '*') writer.write("<ul><li>${a[i].drop(5)}</li>")
-            if (a[i][4] == '*' && a[i + 1][4] == ' ') writer.write("<ul><li>${a[i].drop(5)}</li>")
-            if (a[i][4].isDigit() && a[i + 1][4] == ' ') writer.write("<ul><li>${a[i].drop(5)}</li>")
-        }
-        if (a[i][0] != ' ' && a[i + 1][0] != ' ') writer.write("<li>${a[i].drop(1)}</li>")
-
-        if (a[i][4] == '*' && a[i + 1][4] != '*') writer.write("<ul><li>${a[i].drop(5)}</li></ul>")
-        if (a[i][4] == '*' && a[i + 1][4] != '*' && a[i - 1][4] == '*') writer.write("<li>${a[i].drop(5)}</li></ul>")
-        //if (a[i][4].isDigit() && a[i+1][4] == '*') writer.write("<ul><li>${a[i].drop(5)}</li>")
-    }
-
-
-    writer.write("</p></body></html>")
-    writer.close()
-
+    TODO()
 }
 
 
