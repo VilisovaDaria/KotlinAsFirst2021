@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 
 package lesson11.task1
+
 /**
  * Класс "Величина с размерностью".
  *
@@ -24,9 +25,11 @@ class DimensionalValue(value: Double, dimension: String) : Comparable<Dimensiona
 
 
     private fun getMultiplier(s: String): Double {
-        for (const in DimensionPrefix.values()) {
-            if (const.abbreviation == s[0].toString() && s.length > 1) return const.multiplier
+        for (prefix in DimensionPrefix.values()) {
+            if (prefix.abbreviation == s[0].toString() && s.length > 1) return prefix.multiplier
         }
+
+        if (s.length > 1) throw IllegalArgumentException("Prefix is not existing")
 
         return 1.0
     }
@@ -97,7 +100,10 @@ class DimensionalValue(value: Double, dimension: String) : Comparable<Dimensiona
         else other.value == value && other.dimension == dimension
     }
 
-    override fun hashCode(): Int = value.hashCode()
+    override fun hashCode(): Int {
+        return if (equals(dimension)) value.hashCode()
+        else 0
+    }
 
     /**
      * Сравнение на больше/меньше. Если базовая размерность разная, бросить IllegalArgumentException
