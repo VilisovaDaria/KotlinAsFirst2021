@@ -23,8 +23,9 @@ class DimensionalValue(value: Double, dimension: String) : Comparable<Dimensiona
      */
     val value: Double = value * getMultiplier(dimension)
 
-
     private fun getMultiplier(s: String): Double {
+        if (s.isEmpty()) throw IllegalArgumentException("Dimension is not existing")
+
         for (prefix in DimensionPrefix.values()) {
             if (prefix.abbreviation == s[0].toString() && s.length > 1) return prefix.multiplier
         }
@@ -69,10 +70,7 @@ class DimensionalValue(value: Double, dimension: String) : Comparable<Dimensiona
     /**
      * Вычитание другой величины. Если базовая размерность разная, бросить IllegalArgumentException
      */
-    operator fun minus(other: DimensionalValue): DimensionalValue {
-        if (other.dimension != dimension) throw IllegalArgumentException("Base dimension is different")
-        else return DimensionalValue(value - other.value, dimension.abbreviation)
-    }
+    operator fun minus(other: DimensionalValue): DimensionalValue = -other + this
 
     /**
      * Умножение на число
@@ -100,17 +98,22 @@ class DimensionalValue(value: Double, dimension: String) : Comparable<Dimensiona
         else other.value == value && other.dimension == dimension
     }
 
-    override fun hashCode(): Int {
-        return if (equals(dimension)) value.hashCode()
-        else 0
-    }
-
     /**
      * Сравнение на больше/меньше. Если базовая размерность разная, бросить IllegalArgumentException
      */
     override fun compareTo(other: DimensionalValue): Int {
         if (other.dimension != dimension) throw IllegalArgumentException("Base dimension is different")
-        else return value.toInt() - other.value.toInt()
+        else return when {
+            value - other.value > 0 -> 1
+            value - other.value < 0 -> -1
+            else -> 0
+        }
+    }
+
+    override fun hashCode(): Int {
+        var result = value.hashCode()
+        result = 31 * result + dimension.hashCode()
+        return result
     }
 }
 

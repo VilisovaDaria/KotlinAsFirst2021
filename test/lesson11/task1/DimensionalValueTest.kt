@@ -21,6 +21,10 @@ internal class DimensionalValueTest {
         val second = DimensionalValue("200 m")
         assertEquals(200.0, second.value)
         assertEquals(Dimension.METER, second.dimension)
+        assertThrows(IllegalArgumentException::class.java) { DimensionalValue("1 ") }
+        assertThrows(IllegalArgumentException::class.java) { DimensionalValue(" Kg") }
+        assertThrows(IllegalArgumentException::class.java) { DimensionalValue("   ") }
+        assertThrows(IllegalArgumentException::class.java) { DimensionalValue(5.0, "") }
     }
 
     @Test
@@ -30,12 +34,15 @@ internal class DimensionalValueTest {
         assertThrows(IllegalArgumentException::class.java) {
             DimensionalValue("1 g") + DimensionalValue("1 m")
         }
+        assertThrows(IllegalArgumentException::class.java) {
+            DimensionalValue("1 Dg") + DimensionalValue("1 m")
+        }
     }
 
     @Test
     @Tag("4")
     operator fun unaryMinus() {
-        assertApproxEquals(DimensionalValue("-2 g"), -DimensionalValue("2 g"), 1e-12)
+        assertApproxEquals(DimensionalValue("2 g"), -DimensionalValue("-2 g"), 1e-12)
     }
 
     @Test
