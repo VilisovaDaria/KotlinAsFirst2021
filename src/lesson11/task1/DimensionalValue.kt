@@ -2,6 +2,12 @@
 
 package lesson11.task1
 
+fun checking(s: String): String {
+    if (!s.matches(Regex("^-?[0-9]+(\\.[0-9]+)?\\s[A-z]+"))) throw IllegalArgumentException("Incorrect format")
+
+    return s
+}
+
 /**
  * Класс "Величина с размерностью".
  *
@@ -51,7 +57,7 @@ class DimensionalValue(value: Double, dimension: String) : Comparable<Dimensiona
      *
      * Конструктор из строки. Формат строки: значение пробел размерность (1 Kg, 3 mm, 100 g и так далее).
      */
-    constructor(s: String) : this(s.split(" ")[0].toDouble(), s.split(" ")[1])
+    constructor(s: String) : this(checking(s).split(" ")[0].toDouble(), checking(s).split(" ")[1])
 
     /**
      * Сложение с другой величиной. Если базовая размерность разная, бросить IllegalArgumentException

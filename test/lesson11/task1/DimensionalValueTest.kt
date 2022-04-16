@@ -21,8 +21,8 @@ internal class DimensionalValueTest {
         val second = DimensionalValue("200 m")
         assertEquals(200.0, second.value)
         assertEquals(Dimension.METER, second.dimension)
-        assertThrows(IllegalArgumentException::class.java) { DimensionalValue("1 ") }
-        assertThrows(IllegalArgumentException::class.java) { DimensionalValue(" Kg") }
+        assertThrows(IllegalArgumentException::class.java) { DimensionalValue("-1 ") }
+        assertThrows(IllegalArgumentException::class.java) { DimensionalValue("Kg 6") }
         assertThrows(IllegalArgumentException::class.java) { DimensionalValue("   ") }
         assertThrows(IllegalArgumentException::class.java) { DimensionalValue(5.0, "") }
     }
@@ -51,6 +51,9 @@ internal class DimensionalValueTest {
         assertApproxEquals(DimensionalValue("0 m"), DimensionalValue("1 Km") - DimensionalValue("1000 m"), 1e-10)
         assertThrows(IllegalArgumentException::class.java) {
             DimensionalValue("1 g") - DimensionalValue("1 m")
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            DimensionalValue("") - DimensionalValue("1 m")
         }
     }
 

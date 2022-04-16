@@ -79,6 +79,7 @@ class TrainTimeTable(val baseStationName: String) {
 
         val stopIndex = trainName.stops.indexOfFirst { (name) -> name == stop.name }
 
+        // проверка, когда у поезда уже есть остановка с таким названием
         if (stopIndex != -1) {
 
             if (stopIndex == 0) { // Проверяем первую станцию
@@ -94,9 +95,11 @@ class TrainTimeTable(val baseStationName: String) {
             trainName.stops[stopIndex] = stop
             return false
         }
+
+        // если у поезда еще нет станции stop
         val stopIndexNew = trainName.stops.indexOfFirst { it.time >= stop.time }
 
-        if (stopIndexNew == 0 || stopIndexNew == -1) throw IllegalArgumentException("Incorrect time")
+        if (stopIndexNew == -1) throw IllegalArgumentException("Incorrect time")
 
         trainName.stops.add(stopIndexNew, stop)
         return true
@@ -140,7 +143,7 @@ class TrainTimeTable(val baseStationName: String) {
         trainInformation.filterValues { train -> train.stops[0].time >= currentTime }
             .filterValues { train -> train.stops.indexOfFirst { (name) -> name == destinationName } != -1 }
             .values
-            .sortedBy { it.stops.find{ (name) -> name == destinationName }!!.time }
+            .sortedBy { it.stops.find { (name) -> name == destinationName }!!.time } //
 
 
     /**
@@ -151,6 +154,12 @@ class TrainTimeTable(val baseStationName: String) {
     override fun equals(other: Any?): Boolean {
         if (other !is TrainTimeTable) return false
         return trainInformation == other.trainInformation
+    }
+
+    override fun hashCode(): Int {
+        var result = baseStationName.hashCode()
+        result = 31 * result + trainInformation.hashCode()
+        return result
     }
 }
 
@@ -175,5 +184,5 @@ data class Stop(val name: String, val time: Time)
  */
 
 data class Train(val name: String, val stops: MutableList<Stop>) {
-    constructor(name: String, vararg stops: Stop) : this(name, stops.asList().toMutableList())
+    constructor(name: String, vararg stops: Stop) : this(name, stops.toMutableList())
 }
